@@ -40,6 +40,7 @@ function Server() {
             onClick={() => {
               navigate("/servers/@me");
             }}
+            sx={ { width: "50px", height: "50px",}}
             className="server__avt"
             src="https://pngset.com/images/discord-icon-background-discord-logo-sphere-graphics-art-moon-transparent-png-792846.png"
           />
@@ -50,9 +51,7 @@ function Server() {
               <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
                 <Avatar
                   src={server.avatar}
-                  // onClick={() => {
-                  //   handleOpenServer(server._id);
-                  // }}
+                  sx={ { width: "50px", height: "50px",}}
                   className="server__avt"
                 />
               </Link>
