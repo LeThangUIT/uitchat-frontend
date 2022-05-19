@@ -53,7 +53,7 @@ const Register = () => {
   };
   const handleRegister = (formValue) => {
     if(image !== null) {
-      const imageRef = ref(storage, "image")
+      const imageRef = ref(storage, "image"+ formValue.email)
       uploadBytes(imageRef, image)
         .then(() => {
           getDownloadURL(imageRef)

@@ -25,15 +25,13 @@ const Login = (props) => {
     const { email, password } = formValue;
     setLoading(true);
     dispatch(login({ email, password }))
-    //console.log(".....")
-      // .unwrap()
-      // .then(() => {
-      //   props.history.push("/profile");
-      //   window.location.reload();
-      // })
-      // .catch(() => {
-      //   setLoading(false);
-      // });
+      .unwrap()
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
   if (isLoggedIn) {
     return <Navigate to="/servers/@me" />;
