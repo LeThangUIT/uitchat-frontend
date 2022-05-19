@@ -30,7 +30,10 @@ function App() {
       <div className="container mt-3">
         <Routes>
           <Route path="/servers" element={<Server />}>
-            <Route path="@me" element={<Home />} />
+            <Route path="@me" element={<Home />}>
+              <Route index element={<Chat />} />
+              <Route path=":conversationId" element={<Chat />} />
+            </Route>
             <Route path=":serverId" element={<ServerPlace />}>
               <Route index element={<Chat />} />
               <Route path=":channelId" element={<Chat />} />
