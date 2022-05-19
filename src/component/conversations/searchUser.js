@@ -11,9 +11,11 @@ import authHeader from "../../services/auth-header";
 export default function ComboBox() {
     const [open, setOpen] = React.useState(false);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
-    let allUser = selectedOptions.map(a => a._id);
     const [users, setUsers] = React.useState([])
-
+    const handleChange = (event, value) => {
+        setSelectedOptions(value);
+    }
+    console.log(selectedOptions)
     React.useEffect(() => {
 
         const getUser = async () => {
@@ -22,12 +24,12 @@ export default function ComboBox() {
             console.log(users)
         }
         getUser();
-
     }, [])
-    
+
 
     return (
         <Autocomplete
+            onChange={handleChange}
             disablePortal
             id="combo-box-demo"
             options={users}

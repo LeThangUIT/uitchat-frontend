@@ -48,6 +48,7 @@ function Server() {
         <div className="server__servers">
           {servers.map((server) => (
             <div key={server._id} className="server__server">
+               {console.log(server.avatar)}
               <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
                 <Avatar
                   src={server.avatar}

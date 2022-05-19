@@ -31,7 +31,7 @@ import './Home.css'
 import Message from '../chat/message/Message';
 import axios from 'axios';
 // import { io } from 'socket.io-client';
-import ComboBox from '../conversations/searchUser'
+import ComboBox from '../conversations/SearchUser'
 
 function Home() {
   const { user: currentUser } = useSelector((state) => state.auth);
