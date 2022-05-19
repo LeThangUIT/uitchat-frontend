@@ -5,6 +5,7 @@ import authReducer  from '../features/authSlice';
 import messageReducer from '../features/messageSlice';
 import infoServerReducer from '../features/infoServerSlice'
 import infoChannelReducer from '../features/infoChannelSlice';
+import conversationSlice from '../features/conversationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     channel: channelReducer,
     server: serverReducer,
     auth: authReducer,
-    message: messageReducer
+    message: messageReducer,
+    conversation: conversationSlice.reducer,
   },
 });
