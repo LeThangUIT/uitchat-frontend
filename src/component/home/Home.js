@@ -58,11 +58,7 @@ function Home() {
       <div className='home'>
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <ComboBox />
-
-            {/* {conversations.map((c) => (
-              <Conversation conversations={c} currentUser={currentUser} />
-            ))} */}
+            <ComboBox />       
             <Conversation />
           </div>
         </div>

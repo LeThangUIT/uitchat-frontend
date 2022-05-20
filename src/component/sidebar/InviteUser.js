@@ -41,7 +41,6 @@ export default function InviteUser() {
   const handleChange = (event, value) => {
     setSelectedOptions(value);
   }
-  console.log(selectedOptions)
   return (
     <div>
       <MenuItem onClick={() => {handleClickOpen()}} disableRipple>

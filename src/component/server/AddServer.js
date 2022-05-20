@@ -25,12 +25,13 @@ export default function AddServer() {
   const handleImageChange = (e) => {
     if(e.target.files[0]) {
       setImage(e.target.files[0])
+      console.log(image)
     }
   }
   const handleCreate = () => {
     handleClose();
     if(image !== null) {
-      const imageRef = ref(storage, "image")
+      const imageRef = ref(storage, "image" + value)
       uploadBytes(imageRef, image).then(() => {
         getDownloadURL(imageRef).then((url) => {
           if(value !== '') {
