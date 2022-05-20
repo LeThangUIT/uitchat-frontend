@@ -9,6 +9,7 @@ function Conversation() {
     
     const { user: currentUser } = useSelector((state) => state.auth);
     const conversation = useSelector(state => state.conversation.data );
+    
 
     let navigate = useNavigate()
     useEffect(() => {
@@ -24,7 +25,8 @@ function Conversation() {
         return  console.log(data)
       }).catch(err => console.log(err))
     }, [])
-     console.log(conversation)
+    //  console.log(conversation)
+     
     return (
         <div className="conversation">
             <img className="conversationImg" src="" alt="" />

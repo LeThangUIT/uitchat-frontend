@@ -31,5 +31,5 @@ const conversationSlice = createSlice({
         },
     }
 })
-// export const selectConversation = (state) => state.conversation.data;
+export const selectConversation = (state) => state.conversation.data;
 export default conversationSlice

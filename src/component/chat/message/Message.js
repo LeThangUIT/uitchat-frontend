@@ -19,16 +19,28 @@
 
 // export default Message
 
+import { useSelector } from 'react-redux'
 import './Message.css'
+import { selectConversation } from '../../../features/conversationSlice'
+// import ConversationMessage from '../../conversations/ConversationMessage'
 
 function Message({own}) {
+  const conversations = useSelector(selectConversation)
+ 
   return (
     <div className={own ? "message own": "message"}>
         <div className="messageTop">
           <img className="message" src="" alt="" />
-          <p className="messageText"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+          <p className="messageText"> 
+           {conversations.map((conversation) => (
+             <div>
+              <h3> {conversation.content} </h3> 
+              <div className="messageBottom">{conversation.createdAt}</div>
+              </div>
+            ))}
+             </p>
         </div>
-        <div className="messageBottom">1 hour ago</div>
+       
     </div>
   )
 }
