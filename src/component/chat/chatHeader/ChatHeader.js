@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import "./ChatHeader.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PushPinIcon from "@mui/icons-material/PushPin";
@@ -7,7 +6,6 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import InboxIcon from "@mui/icons-material/Inbox";
 import HelpIcon from "@mui/icons-material/Help";
-import { selectInfoChannel } from "../../../features/infoChannelSlice";
 
 function ChatHeader(props) {
   const channel = props.channel;
@@ -17,7 +15,7 @@ function ChatHeader(props) {
       <div className="chatHeader__left">
         <h3>
           <span className="chatHeader__hash">#</span>
-          {channel.name}
+          {channel && "name" in channel && channel.name}
         </h3>
       </div>
 

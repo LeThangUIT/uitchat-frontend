@@ -9,10 +9,15 @@ import GifBoxIcon from "@mui/icons-material/GifBox";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchInfoChannelData } from "../../features/infoChannelSlice";
-import { fetchChannelData } from "../../features/channelSlice";
-import { selectInfoChannel } from "../../features/infoChannelSlice";
-import { selectChannel } from "../../features/channelSlice";
+import {
+  fetchInfoServerData,
+  selectInfoServer,
+} from "../../features/infoServerSlice";
+import {
+  fetchInfoChannelData,
+  selectInfoChannel,
+} from "../../features/infoChannelSlice";
+import { fetchChannelData, selectChannel } from "../../features/channelSlice";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -20,7 +25,6 @@ function Chat() {
   const { channelId, serverId } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const channel = useSelector(selectInfoChannel);
-  // const channels = useSelector(selectChannel);
 
   useEffect(() => {
     if (!currentUser) {
@@ -28,13 +32,15 @@ function Chat() {
     }
   }, [currentUser]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (channelId) {
       dispatch(fetchInfoChannelData(channelId, serverId));
-    } 
-      // await dispatch(fetchChannelData(serverId));
-      // await dispatch(fetchInfoChannelData(channels[0]._id, serverId));
-    
+    } else {
+      Promise.resolve(dispatch(fetchChannelData(serverId))).then((value) => {
+        let firstChannelId = value.payload[0]._id;
+        dispatch(fetchInfoChannelData(firstChannelId, serverId));
+      });
+    }
   }, [channelId]);
 
   return (

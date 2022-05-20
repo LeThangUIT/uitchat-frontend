@@ -15,7 +15,7 @@ function Server() {
   let navigate = useNavigate();
   const servers = useSelector(selectServer);
   const { user: currentUser } = useSelector((state) => state.auth);
-  // const channels = useSelector(selectChannel);
+  const channels = useSelector(selectChannel);
 
   useEffect(() => {
     if (!currentUser) {
@@ -40,25 +40,28 @@ function Server() {
             onClick={() => {
               navigate("/servers/@me");
             }}
-            sx={ { width: "50px", height: "50px",}}
+            sx={{ width: "50px", height: "50px" }}
             className="server__avt"
             src="https://pngset.com/images/discord-icon-background-discord-logo-sphere-graphics-art-moon-transparent-png-792846.png"
           />
         </div>
         <div className="server__servers">
-          {servers.map((server) => (
-            <div key={server._id} className="server__server">
-               {console.log(server.avatar)}
-              <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
-                <Avatar
-                  src={server.avatar}
-                  sx={ { width: "50px", height: "50px",}}
-                  className="server__avt"
-                />
-              </Link>
-              <div className="hide">{server.name}</div>
-            </div>
-          ))}
+          {servers.map((server) => {
+            // dispatch(fetchChannelData(server._id));
+            // console.log(channels);
+            return (
+              <div key={server._id} className="server__server">
+                <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
+                  <Avatar
+                    src={server.avatar}
+                    sx={{ width: "50px", height: "50px" }}
+                    className="server__avt"
+                  />
+                </Link>
+                <div className="hide">{server.name}</div>
+              </div>
+            );
+          })}
         </div>
         <div className="server__footer">
           <AddSerVer dataFromParent={currentUser} />
