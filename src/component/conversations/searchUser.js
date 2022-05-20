@@ -35,7 +35,7 @@ export default function ComboBox() {
             options={users}
             getOptionLabel={(option) => option.email}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Search" />}
+            renderInput={(params) => <TextField {...params} label="Search" /> }
         />
     );
 }

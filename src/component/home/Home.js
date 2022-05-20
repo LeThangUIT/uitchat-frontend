@@ -40,6 +40,8 @@ function Home() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState("");
+  const [currentMessage, setCurrentMessage] = useState("");
+  const [messageList, setMessageList] = useState([]);
   let navigate = useNavigate()
   useEffect(() => {
     if (!currentUser) {
@@ -52,6 +54,21 @@ function Home() {
       navigate('')
     }
   }, [])
+
+  const sendMessage = async () => {
+    if (currentMessage !== "") {
+        const messageData = {
+            room: conversations,
+            author: currentUser.name,
+            message: currentMessage,
+            time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
+        };
+
+        // await socket.emit("send_message", messageData);
+        setMessageList((list) => [...list, messageData]);
+        setCurrentMessage("");
+    }
+};
 
   return (
     <>
@@ -81,7 +98,7 @@ function Home() {
             </div>
             <div className="chatBoxBottom">
               <textarea className="chatMessageInput" placeholder="write something..."></textarea>
-              <button className="chatSubmitButtom">Send</button>
+              <button className="chatSubmitButtom" onClick={sendMessage}>Send</button>
             </div>
           </div>
         </div>

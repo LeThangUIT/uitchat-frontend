@@ -24,23 +24,25 @@ import './Message.css'
 import { selectConversation } from '../../../features/conversationSlice'
 // import ConversationMessage from '../../conversations/ConversationMessage'
 
-function Message({own}) {
+function Message({ own }) {
   const conversations = useSelector(selectConversation)
- 
+
   return (
-    <div className={own ? "message own": "message"}>
-        <div className="messageTop">
-          <img className="message" src="" alt="" />
-          <p className="messageText"> 
-           {conversations.map((conversation) => (
-             <div>
-              <h3> {conversation.content} </h3> 
-              <div className="messageBottom">{conversation.createdAt}</div>
+    <div className={own ? "message own" : "message"}>
+      {conversations.map((conversation) => (
+        <>
+          <div className="messageTop">
+            <img className="message" src="" alt="" />
+            <p className="messageText">
+              <div>
+                <h3> {conversation.content} </h3>
               </div>
-            ))}
-             </p>
-        </div>
-       
+            </p>
+          </div>
+          <div className="messageBottom">{conversation.createdAt}</div>
+        </>
+      ))}
+
     </div>
   )
 }
