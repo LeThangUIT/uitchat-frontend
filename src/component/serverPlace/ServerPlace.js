@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
-import Sidebar from "../sidebar/Sidebar";
-import "./ServerPlace.css";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+import Home from "../sidebarHome/SidebarHome";
+import Sidebar from "../sidebar/Sidebar";
+
+import "./ServerPlace.css";
 
 function ServerPlace(props) {
   const { serverId } = useParams();
@@ -16,7 +19,7 @@ function ServerPlace(props) {
   }, [currentUser]);
   return (
     <div className="serverPlace">
-      <Sidebar serverId={serverId} />
+      {serverId ? <Sidebar serverId={serverId} /> : <Home />}
       <Outlet />
     </div>
   );

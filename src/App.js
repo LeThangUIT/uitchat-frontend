@@ -5,7 +5,7 @@ import "./App.css";
 import NotFound from "./component/NotFound";
 import Login from "./component/login/Login";
 import Register from "./component/register/Register";
-import Home from "./component/home/Home";
+import Home from "./component/sidebarHome/SidebarHome";
 import Profile from "./component/profile/Profile";
 import ServerPlace from "./component/serverPlace/ServerPlace";
 import Chat from "./component/chat/Chat";
@@ -30,7 +30,7 @@ function App() {
       <div className="container mt-3">
         <Routes>
           <Route path="/servers" element={<Server />}>
-            <Route path="@me" element={<Home />}>
+            <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
               <Route path=":conversationId" element={<Chat />} />
             </Route>

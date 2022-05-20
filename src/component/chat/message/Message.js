@@ -19,30 +19,28 @@
 
 // export default Message
 
-import { useSelector } from 'react-redux'
-import './Message.css'
-import { selectConversation } from '../../../features/conversationSlice'
+import { useSelector } from "react-redux";
+import { selectConversation } from "../../../features/conversationSlice";
+import moment from "moment";
+import "./Message.css";
 // import ConversationMessage from '../../conversations/ConversationMessage'
 
-function Message({own}) {
-  const conversations = useSelector(selectConversation)
- 
+function Message({ own }) {
+  const conversations = useSelector(selectConversation);
+
   return (
-    <div className={own ? "message own": "message"}>
-        <div className="messageTop">
-          <img className="message" src="" alt="" />
-          <p className="messageText"> 
-           {conversations.map((conversation) => (
-             <div>
-              <h3> {conversation.content} </h3> 
-              <div className="messageBottom">{conversation.createdAt}</div>
-              </div>
-            ))}
-             </p>
+    <div>
+      {conversations.map((msg) => (
+        <div key={msg._id} className={own ? "message own" : "message"}>
+          <div className="messageTop">
+            <img className="messageImg" src="" alt="" />
+            <div className="messageText">{msg.content}</div>
+          </div>
+          <div className="messageBot">{moment(msg.createdAt).calendar()}</div>
         </div>
-       
+      ))}
     </div>
-  )
+  );
 }
 
-export default Message
+export default Message;

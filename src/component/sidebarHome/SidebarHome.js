@@ -64,30 +64,7 @@ function Home() {
         </div>
         <div className="chatBox">
           <div className="chatBoxWrapper">
-            <div className="chatBoxTop">
-              <Message />
-              <Message own={true} />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-            </div>
-            <div className="chatBoxBottom">
-              <textarea className="chatMessageInput" placeholder="write something..."></textarea>
-              <button className="chatSubmitButtom">Send</button>
-            </div>
-          </div>
-        </div>
-        <div className="chatActive">
-          <div className="chatActiveWrapper">
-            Online
+              {/* <Outlet /> */}
           </div>
         </div>
       </div>
