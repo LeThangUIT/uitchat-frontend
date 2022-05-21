@@ -27,7 +27,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { Avatar } from '@mui/material'
 import Conversation from '../conversations/Conversation'
-import './Home.css'
+import './SidebarHome.css'
 import Message from '../chat/message/Message';
 import axios from 'axios';
 // import { io } from 'socket.io-client';

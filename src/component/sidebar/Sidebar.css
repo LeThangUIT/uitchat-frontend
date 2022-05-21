@@ -74,10 +74,13 @@
 .sidebar__profileInfo > h5 {
     color: white;
 }
-.sidebar__profileIcon {
+.sidebar__profileIcons {
     display: flex;
     justify-content: space-between;
 }
-.sidebar__profileIcon > .MuiSvgIcon-root {
+.sidebar__profileIcon {
     padding: 10px;
+}
+.setting__Icon {
+    color: gray;
 }

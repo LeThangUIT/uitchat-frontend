@@ -82,16 +82,19 @@ function Sidebar(props) {
         </div>
       </div>
       <div className="sidebar__profile">
-        {/* <Avatar  src={currenUser.user.avatar}/> */}
-        <Avatar />
+        {console.log(currentUser)}
+        {console.log(currentUser.user)}
+        <Avatar src={currentUser.user.avatar}/>
         <div className="sidebar__profileInfo">
           <h5>{currentUser.user.name}</h5>
           <p>#{currentUser.access_token.substring(0, 5)}</p>
         </div>
-        <div className="sidebar__profileIcon">
-          <MicIcon />
-          <HeadsetIcon />
-          <SettingsIcon />
+        <div className="sidebar__profileIcons">
+          <MicIcon className="sidebar__profileIcon"/>
+          <HeadsetIcon className="sidebar__profileIcon"/>
+          <Link to={"/profile"} className="sidebar__profileIcon">
+              <SettingsIcon className="setting__Icon"/>
+          </Link>
         </div>
       </div>
     </div>

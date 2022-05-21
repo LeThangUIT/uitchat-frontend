@@ -9,14 +9,9 @@ import Home from "./component/sidebarHome/SidebarHome";
 import Profile from "./component/profile/Profile";
 import ServerPlace from "./component/serverPlace/ServerPlace";
 import Chat from "./component/chat/Chat";
-import { logout } from "./features/authSlice";
 import Server from "./component/server/Server";
 
 function App() {
-  const dispatch = useDispatch();
-  const logOut = useCallback(() => {
-    dispatch(logout());
-  }, [dispatch]);
   const navigate = useNavigate();
   const { user: currentUser } = useSelector((state) => state.auth);
 
