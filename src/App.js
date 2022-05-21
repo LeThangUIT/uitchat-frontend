@@ -5,7 +5,7 @@ import "./App.css";
 import NotFound from "./component/NotFound";
 import Login from "./component/login/Login";
 import Register from "./component/register/Register";
-import Home from "./component/sidebarHome/SidebarHome";
+import Home from "./component/sidebar/SidebarHome";
 import Profile from "./component/profile/Profile";
 import ServerPlace from "./component/serverPlace/ServerPlace";
 import Chat from "./component/chat/Chat";

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Outlet, Link } from "react-router-dom";
 import "./Sidebar.css";
 import EditServer from "./EditServer";
+import Conversation from "../conversations/Conversation";
+import SearchUser from "../conversations/SearchUser";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AddIcon from "@mui/icons-material/Add";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
@@ -41,30 +43,42 @@ function Sidebar(props) {
   return (
     <div className="sidebar">
       <div className="sidebar__top">
-        <h4>{infoServer.name}</h4>
-        <EditServer />
+        {serverId ? (
+          <>
+            <h4>{infoServer.name}</h4>
+            <EditServer />
+          </>
+        ) : (
+          <SearchUser />
+        )}
       </div>
       <div className="sidebar__channels">
-        <div className="sidebar__channelsHeader">
-          <div className="sidebar__header">
-            <KeyboardArrowDownIcon />
-            <h5>Text channel</h5>
+        {serverId && (
+          <div className="sidebar__channelsHeader">
+            <div className="sidebar__header">
+              <KeyboardArrowDownIcon />
+              <h5>Text channel</h5>
+            </div>
+            <AddIcon
+              onClick={handleAddChannel}
+              className="sidebar__addChannel"
+            ></AddIcon>
           </div>
-          <AddIcon
-            onClick={handleAddChannel}
-            className="sidebar__addChannel"
-          ></AddIcon>
-        </div>
+        )}
         <div className="sidebar__channelsList">
-          {channels.map((channel) => (
-            <Link
-              key={channel._id}
-              to={channel._id}
-              style={{ textDecoration: "none" }}
-            >
-              <SidebarChannel key={channel._id} dataFromParent={channel} />
-            </Link>
-          ))}
+          {serverId ? (
+            channels.map((channel) => (
+              <Link
+                key={channel._id}
+                to={channel._id}
+                style={{ textDecoration: "none" }}
+              >
+                <SidebarChannel key={channel._id} dataFromParent={channel} />
+              </Link>
+            ))
+          ) : (
+            <Conversation />
+          )}
         </div>
       </div>
       <div className="sidebar__voice">
@@ -84,16 +98,16 @@ function Sidebar(props) {
       <div className="sidebar__profile">
         {console.log(currentUser)}
         {console.log(currentUser.user)}
-        <Avatar src={currentUser.user.avatar}/>
+        <Avatar src={currentUser.user.avatar} />
         <div className="sidebar__profileInfo">
           <h5>{currentUser.user.name}</h5>
           <p>#{currentUser.access_token.substring(0, 5)}</p>
         </div>
         <div className="sidebar__profileIcons">
-          <MicIcon className="sidebar__profileIcon"/>
-          <HeadsetIcon className="sidebar__profileIcon"/>
+          <MicIcon className="sidebar__profileIcon" />
+          <HeadsetIcon className="sidebar__profileIcon" />
           <Link to={"/profile"} className="sidebar__profileIcon">
-              <SettingsIcon className="setting__Icon"/>
+            <SettingsIcon className="setting__Icon" />
           </Link>
         </div>
       </div>

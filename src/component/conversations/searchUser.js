@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_URL } from "../../app/constant";
 import authHeader from "../../services/auth-header";
 
-export default function ComboBox() {
+export default function SearchUser() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
