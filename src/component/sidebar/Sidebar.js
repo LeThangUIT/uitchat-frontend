@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Outlet, Link } from "react-router-dom";
-import "./Sidebar.css";
 import EditServer from "./EditServer";
-import Conversation from "../conversations/Conversation";
+import SidebarHome from "../conversations/SidebarHome";
 import SearchUser from "../conversations/SearchUser";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AddIcon from "@mui/icons-material/Add";
@@ -19,6 +18,8 @@ import { selectChannel } from "../../features/channelSlice";
 import { selectInfoServer } from "../../features/infoServerSlice";
 import { fetchInfoServerData } from "../../features/infoServerSlice";
 import { fetchChannelData } from "../../features/channelSlice";
+
+import "./Sidebar.css";
 
 function Sidebar(props) {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -77,7 +78,7 @@ function Sidebar(props) {
               </Link>
             ))
           ) : (
-            <Conversation />
+            <SidebarHome />
           )}
         </div>
       </div>

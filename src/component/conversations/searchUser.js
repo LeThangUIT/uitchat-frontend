@@ -29,7 +29,7 @@ export default function SearchUser() {
         return (
           <li {...props} key={option._id}>
             {option.email}
-          </li>     
+          </li>
         );
       }}
       renderInput={(params) => {

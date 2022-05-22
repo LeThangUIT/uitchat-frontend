@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import NotFound from "./component/NotFound";
 import Login from "./component/login/Login";
 import Register from "./component/register/Register";
-import Home from "./component/sidebar/SidebarHome";
 import Profile from "./component/profile/Profile";
 import ServerPlace from "./component/serverPlace/ServerPlace";
 import Chat from "./component/chat/Chat";
