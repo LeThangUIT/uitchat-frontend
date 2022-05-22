@@ -96,9 +96,8 @@ function Sidebar(props) {
         </div>
       </div>
       <div className="sidebar__profile">
-        {console.log(currentUser)}
-        {console.log(currentUser.user)}
-        <Avatar src={currentUser.user.avatar} />
+        {/* {console.log(currentUser)}
+        <Avatar src={currentUser.user.avatar} /> */}
         <div className="sidebar__profileInfo">
           <h5>{currentUser.user.name}</h5>
           <p>#{currentUser.access_token.substring(0, 5)}</p>

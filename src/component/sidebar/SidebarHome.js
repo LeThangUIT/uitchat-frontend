@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Avatar } from "@mui/material";
 import Conversation from "../conversations/Conversation";
@@ -17,19 +17,34 @@ function Home() {
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState("");
   let navigate = useNavigate();
+  const guestId = useParams().guestId;
   useEffect(() => {
     if (!currentUser) {
       navigate("/login");
     }
   }, [currentUser]);
 
+
   useEffect(() => {
-    if (!"6285b24ec49775b985975ccf") {
+    if (!guestId) {
       navigate("");
     }
   }, []);
 
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const res = await axios.get("/messages/" + currentChat?._id)
+        setMessages(res.data)
+      } catch {
+        // console.log(err);
+      }
+    }
+    getMessages()
+  }, [currentChat]);
+
   return (
+
     // <div className="home">
     //   <div className="chatMenu">
     //     <div className="chatMenuWrapper">
@@ -38,17 +53,32 @@ function Home() {
     //     </div>
     //   </div>
     // </div>
-    <div className="sidebar">
-      <div className="sidebar__top">
-        <SearchUser />
-      </div>
-      <div className="sidebar__channels">
-
-        <div className="sidebar__channelsList">
-          <Conversation />
+    <>
+      <div className="sidebar">
+        <div className="sidebar__top">
+          <SearchUser />
+        </div>
+        <div className="sidebar__channels">
+          <div className="sidebar__channelsList">
+            {conversations.map((c) => (
+              <div onClick={() => setCurrentChat(c)}>
+                <Conversation />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+      <div className="chatBox">
+        <div className="chatBoxWrapper">
+          {
+            currentChat ?
+              <div>
+
+              </div> : <span className="noConversationText">Open a conversation to start a chat</span>
+          }
+        </div>
+      </div>
+    </>
     // <>
     //   <div className='home'>
     //     <div className="chatMenu">

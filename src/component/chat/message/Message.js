@@ -19,14 +19,33 @@
 
 // export default Message
 
-import { useSelector } from "react-redux";
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, Outlet, useParams } from 'react-router-dom';
+import { fetchMessageChannelData, selectMessage, fetchMessageConversationData } from '../../../features/messageGetSlice';
 import { selectConversation } from "../../../features/conversationSlice";
 import moment from "moment";
 import "./Message.css";
-// import ConversationMessage from '../../conversations/ConversationMessage'
 
-function Message({ own }) {
+function Message({ message, own }) {
+  const messages = useSelector(selectMessage);
   const conversations = useSelector(selectConversation);
+  const channelId = useParams().channelId;
+  // const channel = useSelector(selectConversation);
+  console.log(conversations)
+
+  // const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(fetchMessageChannelData(channelId)).unwrap().then(data => {
+  //     return data
+  //   }).catch(err => console.log(err))
+  // }, [])
+
+  // useEffect(() => {
+  //   dispatch(fetchMessageConversationData(conversationId)).unwrap().then(data => {
+  //     return data
+  //   }).catch(err => console.log(err))
+  // }, [])
 
   return (
     <div>

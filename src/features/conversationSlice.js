@@ -7,7 +7,7 @@ export const fetchConversationData = createAsyncThunk(
     'conversation/fetchConversationData',
     async (guestId) => {
         const { data } = await axios.get(`${API_URL}/messages/conversation/${guestId}`, { headers: authHeader() })
-        return data
+        return data        
     }
 )
 

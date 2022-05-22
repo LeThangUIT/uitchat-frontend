@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import "./Chat.css";
 import Member from "./member/Member";
 import ChatHeader from "./chatHeader/ChatHeader";
@@ -9,6 +9,7 @@ import GifBoxIcon from "@mui/icons-material/GifBox";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { API_URL } from "../../app/constant";
 import {
   fetchInfoServerData,
   selectInfoServer,
@@ -18,6 +19,8 @@ import {
   selectInfoChannel,
 } from "../../features/infoChannelSlice";
 import { fetchChannelData, selectChannel } from "../../features/channelSlice";
+import { fetchConversationData } from "../../features/conversationSlice";
+import axios from "axios";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -25,6 +28,9 @@ function Chat() {
   const { channelId, serverId } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const channel = useSelector(selectInfoChannel);
+  const [message, setMessage] = useState([])
+  const [newMessage, setNewMessage] = useState("")
+
 
   useEffect(() => {
     if (!currentUser) {
@@ -43,6 +49,22 @@ function Chat() {
     }
   }, [channelId]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const message = {
+      sender: currentUser._id,
+      text: newMessage,
+      // channelId: currentChat._id,
+    }
+
+    try{
+      const res = await axios.post(`${API_URL}/messages/channel`,message)
+      setMessage(...message, res.data)
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="chat">
       <ChatHeader channel={channel} />
@@ -50,14 +72,12 @@ function Chat() {
         <div className="chat__mess">
           <div className="chat__messages">
             <Message />
-            <Message />
-            <Message />
           </div>
           <div className="chat__input">
             <AddCircleIcon fontSize="large" />
             <form action="">
-              <input placeholder={`Message #Channel Name`} />
-              <button className="chat__inputButton" type="submit">
+              <input placeholder={`Message #Channel Name`} className="chatMessage" onChange={(e) => setMessage(e.target.value)} value={newMessage}/>
+              <button className="chat__inputButton" type="submit" onClick={handleSubmit}>
                 Send
               </button>
             </form>
