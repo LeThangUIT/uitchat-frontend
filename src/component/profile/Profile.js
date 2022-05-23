@@ -12,11 +12,21 @@ const Profile = () => {
   const dispatch = useDispatch();
   const { user: currentUser } = useSelector((state) => state.auth);
   const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(currentUser.user.avatar)
   const navigate = useNavigate()
   useEffect(() => {
     if(image!==null) {
       const imageRef = ref(storage, "image " + currentUser.user.email);
-      uploadBytes(imageRef, image)
+      uploadBytes(imageRef, image).then(() => {
+        getDownloadURL(imageRef).then((url) => {
+          setUrl(url)
+        }).catch(error => {
+          console.log(error.message, "error getting the image url")
+        })
+        setImage(null)
+      }).catch(error => {
+        console.log(error.message)
+      })
     }
   }, [image])
   if (!currentUser) {
@@ -38,7 +48,7 @@ const Profile = () => {
           <div className="profile_editAvatar">
             <div className="profile__avatar">
               <Avatar
-               src={currentUser.user.avatar}
+               src={url}
                 sx={{ width: "100px", height: "100px" }}
               />
             </div>
