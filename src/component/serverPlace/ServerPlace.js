@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-import SidebarHome from "../sidebar/SidebarHome";
 import Sidebar from "../sidebar/Sidebar";
 
 import "./ServerPlace.css";
