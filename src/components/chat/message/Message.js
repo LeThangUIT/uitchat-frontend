@@ -44,8 +44,8 @@
 // }
 import "./Message.css";
 
-const Message = ({ conversation }) => {
-  const own = false;
+const Message = ({ conversation, currentUserId }) => {
+  const own = currentUserId == conversation.userId;
   return (
     <div className={own ? "message own" : "message"}>
       <div className="messageTop">

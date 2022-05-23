@@ -62,7 +62,6 @@ export const fetchAddNewConversation = createAsyncThunk(
         headers: authHeader(),
       }
     );
-    console.log("post message", data);
     return data;
   }
 );

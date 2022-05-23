@@ -31,6 +31,8 @@ function Chat() {
   const [message, setMessage] = useState("");
   const conversations = useSelector(selectConversation);
 
+  const currentUserId = currentUser.user.id;
+
   useEffect(() => {
     if (!currentUser) {
       navigate("/login");
@@ -66,7 +68,11 @@ function Chat() {
         <div className="chat__mess">
           <ScrollToBottom className="chat__messages">
             {conversations.map((conversation) => (
-              <Message key={conversation._id} conversation={conversation} />
+              <Message
+                key={conversation._id}
+                currentUserId={currentUserId}
+                conversation={conversation}
+              />
             ))}
           </ScrollToBottom>
           <div className="chat__input">
