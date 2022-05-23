@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
-import NotFound from "./component/NotFound";
+import NotFound from "./NotFound/NotFound";
 import Login from "./component/login/Login";
 import Register from "./component/register/Register";
 import Home from "./component/home/Home";
@@ -11,6 +11,7 @@ import ServerPlace from "./component/serverPlace/ServerPlace";
 import Chat from "./component/chat/Chat";
 import { logout } from "./features/authSlice";
 import Server from "./component/server/Server";
+import LandingPage from "./component/LandingPage/LandingPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
     <div className="app">
       <div className="container mt-3">
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/servers" element={<Server />}>
             <Route path="@me" element={<Home />}>
               <Route index element={<Chat />} />
