@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Chat.css";
 import Member from "./member/Member";
 import ChatHeader from "./chatHeader/ChatHeader";
@@ -10,14 +10,17 @@ import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchInfoServerData,
-  selectInfoServer,
-} from "../../features/infoServerSlice";
-import {
   fetchInfoChannelData,
   selectInfoChannel,
 } from "../../features/infoChannelSlice";
 import { fetchChannelData, selectChannel } from "../../features/channelSlice";
+import {
+  fetchConversationData,
+  fetchAddNewConversation,
+  selectConversation,
+} from "../../features/conversationSlice";
+
+import ScrollToBottom from "react-scroll-to-bottom";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -25,6 +28,8 @@ function Chat() {
   const { channelId, serverId } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const channel = useSelector(selectInfoChannel);
+  const [message, setMessage] = useState("");
+  const conversations = useSelector(selectConversation);
 
   useEffect(() => {
     if (!currentUser) {
@@ -35,6 +40,7 @@ function Chat() {
   useEffect(() => {
     if (channelId) {
       dispatch(fetchInfoChannelData(channelId, serverId));
+      dispatch(fetchConversationData(channelId));
     } else {
       Promise.resolve(dispatch(fetchChannelData(serverId))).then((value) => {
         let firstChannelId = value.payload[0]._id;
@@ -43,22 +49,39 @@ function Chat() {
     }
   }, [channelId]);
 
+  const sendMessage = (e) => {
+    e.preventDefault();
+
+    if (message) {
+      dispatch(
+        fetchAddNewConversation({ channelId: channel._id, content: message })
+      );
+      setMessage("");
+    }
+  };
   return (
     <div className="chat">
       <ChatHeader channel={channel} />
       <div className="chat__messAndMem">
         <div className="chat__mess">
-          <div className="chat__messages">
-            <Message />
-          </div>
+          <ScrollToBottom className="chat__messages">
+            {conversations.map((conversation) => (
+              <Message key={conversation._id} conversation={conversation} />
+            ))}
+          </ScrollToBottom>
           <div className="chat__input">
             <AddCircleIcon fontSize="large" />
-            <form action="">
-              <input placeholder={`Message #Channel Name`} />
-              <button className="chat__inputButton" type="submit">
-                Send
-              </button>
-            </form>
+            <div className="form">
+              <input
+                type="text"
+                placeholder={`Message #${channel.name}`}
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
+                onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
+              />
+            </div>
             <div className="chat__inputIcons">
               <CardGiftcardIcon />
               <GifBoxIcon />

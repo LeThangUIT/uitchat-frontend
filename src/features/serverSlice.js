@@ -15,7 +15,6 @@ export const fetchServerData = createAsyncThunk(
 export const fetchAddNewServer = createAsyncThunk(
   "server/fetchAddNewServer",
   async (newServer) => {
-    console.log(newServer)
     const { data } = await axios.post(`${API_URL}/servers`, newServer, {
       headers: authHeader(),
     });
@@ -79,12 +78,11 @@ const serverSlice = createSlice({
     [fetchUpdateServer.fulfilled](state, { payload }) {
       state.loading = HTTP_STATUS.FULFILLED;
       state.data = current(state).data.forEach((server) => {
-        if(server._id !== payload.server_id) {
+        if (server._id !== payload.server_id) {
           server.name = payload.name;
-          server.avatar = payload.avatar
+          server.avatar = payload.avatar;
         }
-      }
-      );
+      });
     },
   },
 });
