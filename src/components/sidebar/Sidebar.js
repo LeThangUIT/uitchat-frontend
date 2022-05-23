@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Outlet, Link } from "react-router-dom";
+import { useNavigate, Outlet, Link, NavLink } from "react-router-dom";
 import EditServer from "./EditServer";
 import SidebarHome from "../conversations/SidebarHome";
 import SearchUser from "../conversations/SearchUser";
@@ -64,15 +64,22 @@ function Sidebar(props) {
         )}
         <div className="sidebar__channelsList">
           {serverId ? (
-            channels.map((channel) => (
-              <Link
-                key={channel._id}
-                to={channel._id}
-                style={{ textDecoration: "none" }}
-              >
-                <SidebarChannel key={channel._id} dataFromParent={channel} />
-              </Link>
-            ))
+            channels
+              .filter((channel) => channel.isPublic == true)
+              .map((channel) => (
+                <NavLink
+                  key={channel._id}
+                  to={channel._id}
+                  style={({ isActive }) => {
+                    return {
+                      textDecoration: "none",
+                      color: isActive ? "white" : "gray",
+                    };
+                  }}
+                >
+                  <SidebarChannel key={channel._id} dataFromParent={channel} />
+                </NavLink>
+              ))
           ) : (
             <SidebarHome />
           )}

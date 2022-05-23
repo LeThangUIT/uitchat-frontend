@@ -1,14 +1,14 @@
 
 .sidebarChannel:hover > h5{
-    color: white;
+    color: rgba(255, 255, 255, 0.8);
     background-color: #40464b;
 }
 .sidebarChannel > h5 {
     display: flex;
     padding-left: 15px;
     align-items: center;
-    background-color: #2f3135; 
-    color: gray;
+    /* background-color: #2f3135; 
+    color: gray; */
     cursor: pointer;
 }
 .sidebarChannel__hash {

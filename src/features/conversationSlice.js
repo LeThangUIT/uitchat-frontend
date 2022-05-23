@@ -72,7 +72,12 @@ const conversationSlice = createSlice({
     loading: null,
     data: [],
   },
-  reducers: {},
+  reducers: {
+    addNewConversationFromSocket: (state, action) => {
+      // console.log(action.payload);
+      state.data.push(action.payload);
+    },
+  },
   extraReducers: {
     [fetchConversationData.pending](state) {
       state.loading = HTTP_STATUS.PENDING;
@@ -92,4 +97,7 @@ const conversationSlice = createSlice({
 });
 
 export const selectConversation = (state) => state.conversation.data;
+
+export const { addNewConversationFromSocket } = conversationSlice.actions;
+
 export default conversationSlice.reducer;
