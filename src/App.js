@@ -26,7 +26,7 @@ function App() {
           <Route path="/servers" element={<Server />}>
             <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
-              <Route path=":conversationId" element={<Chat />} />
+              <Route path=":guestId" element={<Chat />} />
             </Route>
             <Route path=":serverId" element={<ServerPlace />}>
               <Route index element={<Chat />} />

@@ -8,12 +8,15 @@
 
 .conversation:hover{
     background-color: rgb(245, 243, 243);
+
 }
 
 .conversationImg{
     margin-right: 20px;
 }
 
+
 .conversationName{
     font-weight: 500;
+    color: rgb(113, 113, 113);
 }

@@ -9,6 +9,7 @@ import GifBoxIcon from "@mui/icons-material/GifBox";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { API_URL } from "../../app/constant";
 import {
   fetchInfoChannelData,
   selectInfoChannel,
