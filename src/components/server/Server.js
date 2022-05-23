@@ -5,7 +5,7 @@ import { useNavigate, Outlet, Link } from "react-router-dom";
 import { fetchServerData, selectServer } from "../../features/serverSlice";
 import { selectChannel } from "../../features/channelSlice";
 import "./Server.css";
-import AddSerVer from "./AddServer";
+import AddServer from "./AddServer";
 import { fetchChannelData } from "../../features/channelSlice";
 import { fetchInfoServerData } from "../../features/infoServerSlice";
 import { fetchInfoChannelData } from "../../features/infoChannelSlice";
@@ -27,11 +27,6 @@ function Server() {
     dispatch(fetchServerData());
   }, []);
 
-  // const handleOpenServer = (serverId) =>
-  //   Promise.resolve(dispatch(fetchChannelData(serverId)))
-  //     .then(() => dispatch(fetchInfoServerData(serverId)))
-  //     .then(() => dispatch(fetchInfoChannelData(channels[0]._id, serverId)))
-  //     .then(() => navigate(`/servers/${serverId}/${channels[0]._id}`));
   return (
     <div className="flexColumn">
       <div className="server">
@@ -47,8 +42,6 @@ function Server() {
         </div>
         <div className="server__servers">
           {servers.map((server) => {
-            // dispatch(fetchChannelData(server._id));
-            // console.log(channels);
             return (
               <div key={server._id} className="server__server">
                 <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
@@ -64,7 +57,7 @@ function Server() {
           })}
         </div>
         <div className="server__footer">
-          <AddSerVer dataFromParent={currentUser} />
+          <AddServer dataFromParent={currentUser} />
         </div>
       </div>
       <div className="server__place">

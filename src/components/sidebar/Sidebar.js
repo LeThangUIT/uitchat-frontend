@@ -4,7 +4,6 @@ import EditServer from "./EditServer";
 import SidebarHome from "../conversations/SidebarHome";
 import SearchUser from "../conversations/SearchUser";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import AddIcon from "@mui/icons-material/Add";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CallIcon from "@mui/icons-material/Call";
@@ -18,6 +17,8 @@ import { selectChannel } from "../../features/channelSlice";
 import { selectInfoServer } from "../../features/infoServerSlice";
 import { fetchInfoServerData } from "../../features/infoServerSlice";
 import { fetchChannelData } from "../../features/channelSlice";
+
+import AddChannel from "../addChannel/AddChannel";
 
 import "./Sidebar.css";
 
@@ -39,8 +40,6 @@ function Sidebar(props) {
     dispatch(fetchChannelData(serverId));
   }, [serverId]);
 
-  const handleAddChannel = () => {};
-
   return (
     <div className="sidebar">
       <div className="sidebar__top">
@@ -58,12 +57,9 @@ function Sidebar(props) {
           <div className="sidebar__channelsHeader">
             <div className="sidebar__header">
               <KeyboardArrowDownIcon />
-              <h5>Text channel</h5>
+              <h5>Public channel</h5>
             </div>
-            <AddIcon
-              onClick={handleAddChannel}
-              className="sidebar__addChannel"
-            ></AddIcon>
+            <AddChannel dataFromParent={currentUser} serverId={serverId} />
           </div>
         )}
         <div className="sidebar__channelsList">
@@ -97,8 +93,12 @@ function Sidebar(props) {
         </div>
       </div>
       <div className="sidebar__profile">
+<<<<<<< HEAD:src/component/sidebar/Sidebar.js
         {/* {console.log(currentUser)}
         <Avatar src={currentUser.user.avatar} /> */}
+=======
+        <Avatar src={currentUser.user.avatar} />
+>>>>>>> fb7d7e8b6ec99928f5648e90775041a408eded9b:src/components/sidebar/Sidebar.js
         <div className="sidebar__profileInfo">
           <h5>{currentUser.user.name}</h5>
           <p>#{currentUser.access_token.substring(0, 5)}</p>
