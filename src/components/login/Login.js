@@ -6,8 +6,8 @@ import * as Yup from "yup";
 import { login } from "../../features/authSlice";
 import { clearMessage } from "../../features/messageSlice";
 const Login = (props) => {
-  const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
   useEffect(() => {

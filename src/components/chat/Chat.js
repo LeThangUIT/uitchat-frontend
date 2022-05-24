@@ -35,7 +35,7 @@ function Chat() {
   const conversations = useSelector(selectConversation);
   // const [messages, setMessages] = useState(conversations);
 
-  const currentUserId = currentUser.user.id;
+  const currentUserId = currentUser.id;
   const END_POINT = "http://localhost:8000";
 
   useEffect(() => {
