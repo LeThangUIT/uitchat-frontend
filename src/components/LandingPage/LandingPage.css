@@ -1,0 +1,119 @@
+.container_landingPage {
+  color: #fff;
+  background-color: #404eed;
+}
+.banner {
+  background-color: #404eed;
+  padding-top: 40px;
+  padding-bottom: 120px;
+}
+
+.banner2 {
+  padding: 36px 28px;
+}
+
+.banner3 {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  max-width: 768px;
+}
+
+.banner3 .slogan {
+  font-size: 55px;
+  line-height: 1;
+  color: white;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-family: "Helvetica";
+}
+.banner3 .slogan_detail {
+  color: white;
+  font-size: 20px;
+  line-height: 35px;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  font-family: Candara;
+}
+.banner3 .button {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  justify-content: center;
+}
+.banner3 .button .download,
+.banner3 .button .open_discord {
+  background-color: white;
+  width: 240px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  padding: 16px;
+  font-size: 18px;
+  line-height: 28px;
+  transition-duration: 200ms;
+  border: none;
+  gap: 10px;
+}
+
+.banner3 .button .download:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  color: rgba(114, 137, 218);
+}
+
+.banner3 .button .open_discord {
+  background-color: rgba(17, 24, 39);
+  color: white;
+  width: 288px;
+}
+
+.banner3 .button .open_discord:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background-color: rgba(31, 41, 55);
+}
+
+@media (min-width: 1024px) {
+  .banner3 {
+    padding-top: 30px;
+    text-align: center;
+  }
+  .banner2 {
+    display: flex;
+    justify-content: center;
+  }
+}
+@media (max-width: 1024px) {
+  .banner3 {
+    max-width: 448px;
+  }
+}
+@media (max-width: 768px) {
+  .banner3 {
+    max-width: 768px;
+  }
+  .banner3 .slogan {
+    font-size: 25px;
+  }
+  .banner3 .slogan_detail {
+    font-size: 15px;
+  }
+}
+@media (min-width: 640px) {
+  .banner3 .button {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+@media (min-width: 768px) {
+  .banner3 .button {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@media (min-width: 1024px) {
+  .banner3 .button {
+    flex-direction: row;
+  }
+}

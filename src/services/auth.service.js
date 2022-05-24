@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../app/constant";
-const register = ( email, password, name, avatar) => {
+const register = (email, password, name, avatar) => {
   return axios
     .post(API_URL + "/auth/register", {
       email,
@@ -12,7 +12,7 @@ const register = ( email, password, name, avatar) => {
       if (response.data.access_token) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
-      console.log(response.data)
+      console.log(response.data);
       return response.data;
     });
 };
@@ -23,11 +23,10 @@ const login = (email, password) => {
       password,
     })
     .then((response) => {
-      console.log(response.access_token)
+      console.log(response.access_token);
       if (response.data.access_token) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
-      console.log(response.data)
       return response.data;
     });
 };

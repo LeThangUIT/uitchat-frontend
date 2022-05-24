@@ -1,23 +1,17 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
-import NotFound from "./NotFound/NotFound";
-import Login from "./component/login/Login";
-import Register from "./component/register/Register";
-import Home from "./component/home/Home";
-import Profile from "./component/profile/Profile";
-import ServerPlace from "./component/serverPlace/ServerPlace";
-import Chat from "./component/chat/Chat";
-import { logout } from "./features/authSlice";
-import Server from "./component/server/Server";
-import LandingPage from "./component/LandingPage/LandingPage";
+import Register from "./components/profile/Profile";
+import Profile from "./components/profile/Profile";
+import ServerPlace from "./components/serverPlace/ServerPlace";
+import Chat from "./components/chat/Chat";
+import Server from "./components/server/Server";
+import LandingPage from "./components/LandingPage/LandingPage";
+import NotFound from "./components/NotFound/NotFound";
+import Login from "./components/login/Login";
 
 function App() {
-  const dispatch = useDispatch();
-  const logOut = useCallback(() => {
-    dispatch(logout());
-  }, [dispatch]);
   const navigate = useNavigate();
   const { user: currentUser } = useSelector((state) => state.auth);
 
@@ -32,9 +26,9 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/servers" element={<Server />}>
-            <Route path="@me" element={<Home />}>
+            <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
-              <Route path=":conversationId" element={<Chat />} />
+              <Route path=":guestId" element={<Chat />} />
             </Route>
             <Route path=":serverId" element={<ServerPlace />}>
               <Route index element={<Chat />} />
