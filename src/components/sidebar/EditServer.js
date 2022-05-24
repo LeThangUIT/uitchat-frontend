@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { selectInfoServer } from "../../features/infoServerSlice";
 import { fetchDeleteServer } from "../../features/serverSlice";
+import DeleteMember from "./DeleteMember";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -69,7 +70,7 @@ export default function EditServer() {
 
   if ("ownerIds" in infoServer) {
     infoServer.ownerIds.forEach((owner) => {
-      if (owner.email === currentUser.user.email) {
+      if (owner.email === currentUser.email) {
         isOwner = true;
       }
     });
@@ -93,7 +94,6 @@ export default function EditServer() {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         variant="contained"
-        // disableElevation
         onClick={handleClick}
       />
 
@@ -110,7 +110,8 @@ export default function EditServer() {
         <Divider sx={{ my: 0.5 }} />
         {isOwner ? (
           <div>
-            <UpdateServer onClick={handleClose} />
+            <DeleteMember/>
+            <UpdateServer onClick={handleClose}/>
             <MenuItem onClick={handleClose} disableRipple>
               <AddIcon />
               Create Channel

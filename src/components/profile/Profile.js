@@ -7,7 +7,9 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { storage } from "../../firebase"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import "./Profile.css";
-import { logout } from "../../features/authSlice";
+import { fetchUpdateUser, logout } from "../../features/authSlice";
+import UpdateEmail from "../sidebar/UpdateEmail";
+import UpdateName from "../sidebar/UpdateName";
 const Profile = () => {
   const dispatch = useDispatch();
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -15,8 +17,17 @@ const Profile = () => {
   const navigate = useNavigate()
   useEffect(() => {
     if(image!==null) {
-      const imageRef = ref(storage, "image " + currentUser.user.email);
-      uploadBytes(imageRef, image)
+      const imageRef = ref(storage, "image " + currentUser.email);
+      uploadBytes(imageRef, image).then(() => {
+        getDownloadURL(imageRef).then((url) => {
+          dispatch(fetchUpdateUser({avatar: url }))
+        }).catch(error => {
+          console.log(error.message, "error getting the image url")
+        })
+        setImage(null)
+      }).catch(error => {
+        console.log(error.message)
+      })
     }
   }, [image])
   if (!currentUser) {
@@ -38,7 +49,7 @@ const Profile = () => {
           <div className="profile_editAvatar">
             <div className="profile__avatar">
               <Avatar
-               src={currentUser.user.avatar}
+               src={currentUser.avatar}
                 sx={{ width: "100px", height: "100px" }}
               />
             </div>
@@ -57,20 +68,16 @@ const Profile = () => {
             <div className="profile__edit">
               <div className="profile__infoItem">
                 <strong>Name</strong>
-                <p>{currentUser.user.name}</p>
+                <p>{currentUser.name}</p>
               </div>
-              <Button className="profile__button" variant="contained">
-                Edit
-              </Button>
+              <UpdateName/>
             </div>
             <div className="profile__edit">
               <div className="profile__infoItem">
                 <strong>Email</strong>
-                <p>{currentUser.user.email}</p>
+                <p>{currentUser.email}</p>
               </div>
-              <Button className="profile__button" variant="contained">
-                Edit
-              </Button>
+              <UpdateEmail/>
             </div>
             <div className="profile__edit">
               <Button className="profile__button" variant="contained">
