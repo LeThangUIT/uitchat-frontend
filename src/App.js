@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
-import Register from "./components/profile/Profile";
+import Register from "./components/register/Register";
 import Profile from "./components/profile/Profile";
 import ServerPlace from "./components/serverPlace/ServerPlace";
 import Chat from "./components/chat/Chat";
