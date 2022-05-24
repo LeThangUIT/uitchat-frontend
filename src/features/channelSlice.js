@@ -14,8 +14,8 @@ export const fetchChannelData = createAsyncThunk(
 
 export const fetchAddNewChannel = createAsyncThunk(
   "channel/fetchAddNewChannel",
-  async (serverId) => {
-    const { data } = await axios.get(`${API_URL}/channels/${serverId}`, {
+  async (newChannel) => {
+    const { data } = await axios.post(`${API_URL}/channels`, newChannel, {
       headers: authHeader(),
     });
     return data;
@@ -40,6 +40,10 @@ const channelSlice = createSlice({
     },
     [fetchChannelData.rejected](state) {
       state.loading = HTTP_STATUS.REJECTED;
+    },
+    [fetchAddNewChannel.fulfilled](state, { payload }) {
+      state.loading = HTTP_STATUS.FULFILLED;
+      state.data.push(payload);
     },
   },
 });

@@ -10,13 +10,13 @@ import conversationSlice from '../features/conversationSlice';
 
 export const store = configureStore({
   reducer: {
-    infoServer: infoServerReducer, 
+    infoServer: infoServerReducer,
     infoChannel: infoChannelReducer,
     channel: channelReducer,
     server: serverReducer,
     auth: authReducer,
     message: messageReducer,
     member: memberReducer,
-    conversation: conversationSlice.reducer,
+    conversation: conversationSlice,
   },
 });

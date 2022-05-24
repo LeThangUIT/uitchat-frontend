@@ -14,7 +14,6 @@ export const fetchMemberData = createAsyncThunk(
 export const fetchAddMember = createAsyncThunk(
     "member/fetchAddMember",
     async (members) => {
-      console.log(members)
       const { data } = await axios.post(`${API_URL}/servers/members`,members, {
         headers: authHeader(),
       });
@@ -23,13 +22,21 @@ export const fetchAddMember = createAsyncThunk(
   );
 export const fetchDeleteMember = createAsyncThunk(
   "member/fetchDeleteMember",
-  async (members) => {
-    const { data } = await axios.delete(`${API_URL}/servers/users`, members, {
-      headers: authHeader(),
-    })
-    return data;
+  (members) => {
+    axios
+      .delete(`${API_URL}/servers/members`, {
+        data: members,
+        headers: authHeader(),
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+    return members
   }
-)
+);
   const memberSlice = createSlice({
     name: "member",
     initialState: {
@@ -65,7 +72,11 @@ export const fetchDeleteMember = createAsyncThunk(
       [fetchDeleteMember.fulfilled](state, { payload }) {
         console.log(payload)
         state.loading = HTTP_STATUS.FULFILLED;
-        //state.data.push(payload);
+        payload.member_ids.forEach((member_id) => {
+          state.data = current(state).data.filter(
+            (member) => member._id !==member_id
+          );
+          })
       },
       [fetchDeleteMember.rejected](state) {
         state.loading = HTTP_STATUS.REJECTED;
