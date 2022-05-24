@@ -81,9 +81,9 @@ export default function EditServer() {
     setAnchorEl(null);
   };
   const handleDeleteServer = () => {
+    navigate("/servers/@me");
     dispatch(fetchDeleteServer(infoServer._id));
     handleClose();
-    navigate("/servers/@me");
   };
   return (
     <div>
@@ -110,7 +110,7 @@ export default function EditServer() {
         <Divider sx={{ my: 0.5 }} />
         {isOwner ? (
           <div>
-            <UpdateServer onClick={handleClose}/>
+            <UpdateServer onClick={handleClose} />
             <MenuItem onClick={handleClose} disableRipple>
               <AddIcon />
               Create Channel

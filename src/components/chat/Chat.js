@@ -51,7 +51,7 @@ function Chat() {
     if (channelId) {
       dispatch(fetchInfoChannelData(channelId, serverId));
       dispatch(fetchConversationData(channelId));
-    } else {
+    } else if (serverId) {
       Promise.resolve(dispatch(fetchChannelData(serverId))).then((value) => {
         let firstChannelId = value.payload[0]._id;
         navigate(`${firstChannelId}`);

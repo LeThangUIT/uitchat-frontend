@@ -36,8 +36,10 @@ function Sidebar(props) {
     }
   }, [currentUser]);
   useEffect(() => {
-    dispatch(fetchInfoServerData(serverId));
-    dispatch(fetchChannelData(serverId));
+    if (serverId) {
+      dispatch(fetchInfoServerData(serverId));
+      dispatch(fetchChannelData(serverId));
+    }
   }, [serverId]);
 
   return (

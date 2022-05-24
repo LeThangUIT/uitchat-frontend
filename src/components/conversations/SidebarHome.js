@@ -55,7 +55,7 @@ function SidebarHome() {
   // Data.results.map(element => {
   //   console.log(element.user[0].name)
   // });
-  console.log(conversation)
+  // console.log(conversation)
   // console.log(Data.results)
 
 
