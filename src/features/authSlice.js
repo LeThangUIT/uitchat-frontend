@@ -86,7 +86,8 @@ const authSlice = createSlice({
       state.user = null;
     },
     [fetchUpdateUser.fulfilled]: (state, action) => {
-      state.user.user = action.payload.userInfo
+      console.log(action.payload.userInfo)
+      state.user = action.payload.userInfo
     }
   },
 });

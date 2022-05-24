@@ -23,7 +23,7 @@ const update = ( data) => {
     headers: authHeader(),
   })
   .then((response) => {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.setItem("user", JSON.stringify(response.data.userInfo));
     return response.data;
   });
 }
