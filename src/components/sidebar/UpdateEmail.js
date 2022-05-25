@@ -35,7 +35,6 @@ function UpdateEmail() {
   });
   const handleDone = (formValue) => {
     const { email, password } = formValue;
-    console.log(formValue);
     setLoading(true);
     dispatch(fetchUpdateUser({ email: email, current_password: password }))
       .unwrap()
