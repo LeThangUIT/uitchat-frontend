@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 import NotFound from "./components/NotFound";
 import Login from "./components/login/Login";
@@ -16,14 +16,16 @@ function App() {
 
   useEffect(() => {
     if (!currentUser) {
-      navigate("/login");
+      navigate("login");
     }
   }, [currentUser]);
   return (
     <div className="app">
       <div className="container mt-3">
         <Routes>
+          <Route path="/" element={<Navigate to="/servers/@me" />} />
           <Route path="/servers" element={<Server />}>
+            <Route index element={<Navigate to="/servers/@me" />} />
             <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
               <Route path=":guestId" element={<Chat />} />

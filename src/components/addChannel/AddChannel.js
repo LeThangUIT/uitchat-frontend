@@ -22,10 +22,12 @@ export default function AddChannel({ serverId }) {
 
   const handleClose = () => {
     setOpen(false);
+    setName("");
   };
 
   const handleCreate = () => {
     handleClose();
+    setName("");
     dispatch(fetchAddNewChannel({ serverId, name, isPublic }));
   };
 

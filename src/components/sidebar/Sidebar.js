@@ -102,11 +102,7 @@ function Sidebar(props) {
         </div>
       </div>
       <div className="sidebar__profile">
-<<<<<<< HEAD
         <Avatar src={currentUser.avatar} />
-=======
-        <Avatar src={currentUser.avatar}/>
->>>>>>> 6960955caa8052a93b878267be6abd3228e4ba7b
         <div className="sidebar__profileInfo">
           <h5>{currentUser.name}</h5>
           {/* <p>#{currentUser.access_token.substring(0, 5)}</p> */}

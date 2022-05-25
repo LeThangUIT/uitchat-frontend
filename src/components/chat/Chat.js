@@ -16,14 +16,17 @@ import {
 import { fetchChannelData } from "../../features/channelSlice";
 import {
   fetchConversationData,
-  fetchAddNewConversation,
   selectConversation,
-  addNewConversationFromSocket,
+  selectInputMessages,
+  addInputMessage,
+  addNewMessageFromSocket,
 } from "../../features/conversationSlice";
 
-import io from "socket.io-client";
-
-let socket;
+import {
+  socketAddListener,
+  socketEmitEvent,
+  selectSocket,
+} from "../../features/socketSlice";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -31,20 +34,20 @@ function Chat() {
   const { channelId, serverId } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const channel = useSelector(selectInfoChannel);
+  const conversation = useSelector(selectConversation);
+  const inputMessages = useSelector(selectInputMessages);
+  const oldInputMessage = inputMessages.find(
+    (inputMessage) => inputMessage.channelId === channelId
+  );
   const [message, setMessage] = useState("");
-  const conversations = useSelector(selectConversation);
-  // const [messages, setMessages] = useState(conversations);
+  const socket = useSelector(selectSocket);
 
   const currentUserId = currentUser.id;
-  const END_POINT = "http://localhost:8000";
 
   useEffect(() => {
     if (!currentUser) {
       navigate("/login");
     }
-    socket = io(END_POINT, { query: { userId: currentUserId } });
-
-    return () => socket.close();
   }, [currentUser]);
 
   useEffect(() => {
@@ -57,27 +60,49 @@ function Chat() {
         navigate(`${firstChannelId}`);
       });
     }
+    setMessage(oldInputMessage ? oldInputMessage.message : "");
   }, [serverId, channelId]);
 
-  useEffect(() => {
-    socket.emit("join-channel", channelId);
-  }, [channelId]);
+  // ================ Socket.io ==================
 
   useEffect(() => {
-    socket.on("receive-message", (mes) => {
-      dispatch(addNewConversationFromSocket(mes));
-    });
+    if (socket) {
+      const event = {
+        name: "join-channel",
+        data: {
+          channelId,
+        },
+      };
+      dispatch(socketEmitEvent(event));
+    }
+  }, [channelId, socket]);
 
-    return () => socket.off("receive-message");
-  });
+  useEffect(() => {
+    if (socket) {
+      const receiveMessageEvent = {
+        name: "receive-message",
+        callback: (msg) => {
+          dispatch(addNewMessageFromSocket(msg));
+        },
+      };
+      dispatch(socketAddListener(receiveMessageEvent));
+    }
+  }, [socket]);
+
+  // ============================================
 
   const sendMessage = (e) => {
     e.preventDefault();
 
     if (message) {
-      let channelId = channel._id;
-      let content = message;
-      socket.emit("send-message", { channelId, content });
+      const event = {
+        name: "send-message",
+        data: {
+          channelId,
+          content: message,
+        },
+      };
+      dispatch(socketEmitEvent(event));
 
       setMessage("");
     }
@@ -88,10 +113,7 @@ function Chat() {
       <ChatHeader channel={channel} />
       <div className="chat__messAndMem">
         <div className="chat__mess">
-          <Messages
-            conversations={conversations}
-            currentUserId={currentUserId}
-          />
+          <Messages messages={conversation} currentUserId={currentUserId} />
           <div className="chat__input">
             <AddCircleIcon fontSize="large" />
             <div className="form">
@@ -100,7 +122,9 @@ function Chat() {
                 placeholder={`Message #${channel.name}`}
                 value={message}
                 onChange={(e) => {
-                  setMessage(e.target.value);
+                  let val = e.target.value;
+                  dispatch(addInputMessage({ channelId, message: val }));
+                  setMessage(val);
                 }}
                 onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
               />
