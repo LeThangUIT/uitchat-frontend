@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import "./Footer.css";
->>>>>>> 559b01683df9fb3765bf8933bd525e931b2fe88c
 import { IoIosArrowDown } from "react-icons/io";
 import { BsTwitter, BsInstagram, BsYoutube } from "react-icons/bs";
 import { FaDiscord } from "react-icons/fa";
