@@ -52,7 +52,7 @@ export const fetchConversationData = createAsyncThunk(
   }
 );
 
-export const fetchAddNewConversation = createAsyncThunk(
+export const fetchAddNewMessage = createAsyncThunk(
   "conversation/fetchAddNewconversation",
   async (newMessage) => {
     const { data } = await axios.post(
@@ -71,11 +71,41 @@ const conversationSlice = createSlice({
   initialState: {
     loading: null,
     data: [],
+    inputMessages: [],
   },
   reducers: {
-    addNewConversationFromSocket: (state, action) => {
-      // console.log(action.payload);
+    addNewMessageFromSocket: (state, action) => {
       state.data.push(action.payload);
+    },
+
+    updateMessageFromSocket: (state, action) => {
+      const updatedMessage = action.payload;
+      state.data.map((message) => {
+        if (message._id == updatedMessage._id) {
+          message.content = updatedMessage.content;
+          message.updatedAt = updatedMessage.updatedAt;
+        }
+      });
+    },
+
+    deleteMessageFromSocket: (state, action) => {
+      const messageId = action.payload;
+      state.data.map((message) => {
+        if (message._id == messageId) {
+          message.deleted = true;
+        }
+      });
+    },
+
+    addInputMessage: (state, action) => {
+      let index = state.inputMessages.findIndex(
+        (inputMessage) => inputMessage.channelId === action.payload.channelId
+      );
+      if (index > -1) {
+        state.inputMessages[index].message = action.payload.message;
+      } else {
+        state.inputMessages.push(action.payload);
+      }
     },
   },
   extraReducers: {
@@ -89,15 +119,17 @@ const conversationSlice = createSlice({
     [fetchConversationData.rejected](state) {
       state.loading = HTTP_STATUS.REJECTED;
     },
-    [fetchAddNewConversation.fulfilled](state, { payload }) {
-      state.loading = HTTP_STATUS.FULFILLED;
-      state.data.push(payload);
-    },
   },
 });
 
 export const selectConversation = (state) => state.conversation.data;
+export const {
+  addNewMessageFromSocket,
+  updateMessageFromSocket,
+  deleteMessageFromSocket,
+} = conversationSlice.actions;
 
-export const { addNewConversationFromSocket } = conversationSlice.actions;
+export const selectInputMessages = (state) => state.conversation.inputMessages;
+export const { addInputMessage } = conversationSlice.actions;
 
 export default conversationSlice.reducer;

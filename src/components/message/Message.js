@@ -1,57 +1,68 @@
-// import { Avatar } from '@mui/material'
-// import React from 'react'
-// import './Message.css'
-// function Message() {
-//   return (
-//     <div className='message'>
-//         <Avatar/>
-//         <div className="message__info">
-//             <h4>
-//                 Thang
-//                 <span className='message__timestamp'>1/10/2001</span>
-//             </h4>
-//             <p>This is message</p>
-//         </div>
-//     </div>
+import EditMessage from "../editMessage/EditMessage";
+import Avatar from "@mui/material/Avatar";
+import { useState } from "react";
+import { socketEmitEvent } from "../../features/socketSlice";
 
-//   )
-// }
-
-// export default Message
-
-// import { useSelector } from "react-redux";
-// import { selectConversation } from "../../../features/conversationSlice";
-// import moment from "moment";
-// import "./Message.css";
-// import ConversationMessage from '../../conversations/ConversationMessage'
-
-// function Message({ message }) {
-//   const conversations = useSelector(selectConversation);
-
-//   return (
-//     <div>
-//       {conversations.map((msg) => (
-//         <div key={msg._id} className={own ? "message own" : "message"}>
-//           <div className="messageTop">
-//             <img className="messageImg" src="" alt="" />
-//             <div className="messageText">{msg.content}</div>
-//           </div>
-//           <div className="messageBot">{moment(msg.createdAt).calendar()}</div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// }
 import "./Message.css";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-const Message = ({ conversation, currentUserId }) => {
-  const own = currentUserId == conversation.userId;
+const Message = ({ message, currentUserId }) => {
+  const dispatch = useDispatch();
+  const { channelId } = useParams();
+  const [editing, setEditing] = useState(false);
+  const [msg, setMsg] = useState(message.content);
+
+  const own = currentUserId == message.userId;
+  const deleted = message.deleted;
+
+  const editMessage = () => {
+    const event = {
+      name: "update-message",
+      data: {
+        messageId: message._id,
+        channelId,
+        content: msg,
+      },
+    };
+    dispatch(socketEmitEvent(event));
+    setEditing(false);
+  };
+
   return (
     <div className={own ? "message own" : "message"}>
-      <div className="messageTop">
-        <img className="messageImg" src="" alt="" />
-        <div className="messageText">{conversation.content}</div>
-      </div>
+      <Avatar
+        alt=""
+        src="https://firebasestorage.googleapis.com/v0/b/discord-app-5acff.appspot.com/o/image%20taolavinh%40gmail.com?alt=media&token=0ef2c78b-8349-49ae-9fc1-5800189aaf97"
+      />
+
+      {deleted ? (
+        <div className="messageText">'Message was deleted'</div>
+      ) : (
+        <>
+          <div className="messageText">
+            {editing ? (
+              <input
+                type="text"
+                style={{ border: 0 }}
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && editMessage()}
+              />
+            ) : (
+              message.content
+            )}
+          </div>
+          {message.createdAt !== message.updatedAt && <div>(Edited)</div>}
+          {own && (
+            <EditMessage
+              own={own}
+              messageId={message._id}
+              setEditing={setEditing}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };

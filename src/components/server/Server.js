@@ -4,18 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Outlet, Link } from "react-router-dom";
 import { fetchServerData, selectServer } from "../../features/serverSlice";
 import { selectChannel } from "../../features/channelSlice";
-import "./Server.css";
 import AddServer from "./AddServer";
-import { fetchChannelData } from "../../features/channelSlice";
-import { fetchInfoServerData } from "../../features/infoServerSlice";
-import { fetchInfoChannelData } from "../../features/infoChannelSlice";
+
+import "./Server.css";
 
 function Server() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const servers = useSelector(selectServer);
   const { user: currentUser } = useSelector((state) => state.auth);
-  const channels = useSelector(selectChannel);
 
   useEffect(() => {
     if (!currentUser) {

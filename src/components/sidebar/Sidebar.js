@@ -36,8 +36,10 @@ function Sidebar(props) {
     }
   }, [currentUser]);
   useEffect(() => {
-    dispatch(fetchInfoServerData(serverId));
-    dispatch(fetchChannelData(serverId));
+    if (serverId) {
+      dispatch(fetchInfoServerData(serverId));
+      dispatch(fetchChannelData(serverId));
+    }
   }, [serverId]);
 
   return (
@@ -100,7 +102,7 @@ function Sidebar(props) {
         </div>
       </div>
       <div className="sidebar__profile">
-        <Avatar src={currentUser.avatar}/>
+        <Avatar src={currentUser.avatar} />
         <div className="sidebar__profileInfo">
           <h5>{currentUser.name}</h5>
           {/* <p>#{currentUser.access_token.substring(0, 5)}</p> */}

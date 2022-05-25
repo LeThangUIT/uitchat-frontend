@@ -44,9 +44,4 @@
 .chat__inputIcons > .MuiSvgIcon-root {
     padding: 5px;
 }
-.chat__messages {
-    height: 80vh;
-    overflow: auto;
-    flex: auto;
-}
 
