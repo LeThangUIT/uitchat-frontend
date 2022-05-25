@@ -1,0 +1,16 @@
+.chat__messages {
+  padding: 0 1rem;
+  height: 80vh;
+  overflow: auto;
+  flex: auto;
+}
+
+.chat__messages::-webkit-scrollbar {
+  width: 6px;
+  background-color: rgba(122, 114, 114, 0.132);
+}
+
+.chat__messages::-webkit-scrollbar-thumb {
+  background-color: rgb(41, 40, 39);
+  border-radius: 5px;
+}
