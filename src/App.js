@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
-import NotFound from "./components/NotFound";
-import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Profile from "./components/profile/Profile";
 import ServerPlace from "./components/serverPlace/ServerPlace";
 import Chat from "./components/chat/Chat";
 import Server from "./components/server/Server";
+import LandingPage from "./components/LandingPage/LandingPage";
+import NotFound from "./components/NotFound/NotFound";
+import Login from "./components/login/Login";
 
 function App() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function App() {
     <div className="app">
       <div className="container mt-3">
         <Routes>
-          <Route path="/" element={<Navigate to="/servers/@me" />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/servers" element={<Server />}>
             <Route index element={<Navigate to="/servers/@me" />} />
             <Route path="@me" element={<ServerPlace />}>

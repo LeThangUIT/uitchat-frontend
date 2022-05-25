@@ -1,0 +1,76 @@
+.header {
+  background-color: inherit;
+  padding: 20px 40px;
+  font-family: "Lucida Sans";
+  max-width: 1260px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.header .logo .discord_icon {
+  font-size: 35px;
+}
+.header .logo1 {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  font-size: 20px;
+  gap: 5px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.header .nav {
+  gap: 40px;
+  display: flex;
+}
+.header .nav a {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+}
+.header .nav a:hover {
+  text-decoration: underline;
+}
+.header .login {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 30px;
+}
+.header .login .button_login {
+  background-color: white;
+  padding: 10px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition-duration: 200ms;
+  font-family: inherit;
+}
+.header .login .button_login:hover {
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.3);
+  color: rgba(114, 137, 218);
+}
+
+.header .login .menu {
+  cursor: pointer;
+  color: white;
+}
+@media (max-width: 1024px) {
+  .header .nav {
+    display: none !important;
+  }
+  .header {
+    justify-content: space-between;
+  }
+}
+@media (min-width: 1024px) {
+  .header .login .menu {
+    display: none !important;
+  }
+}
