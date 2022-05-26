@@ -82,9 +82,9 @@ export default function EditServer() {
     setAnchorEl(null);
   };
   const handleDeleteServer = () => {
+    navigate("/servers/@me");
     dispatch(fetchDeleteServer(infoServer._id));
     handleClose();
-    navigate("/servers/@me");
   };
   return (
     <div>

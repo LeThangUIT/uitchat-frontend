@@ -32,7 +32,8 @@
     background-color: #1A171c;
 } 
 .server__servers::-webkit-scrollbar-thumb {
-    background-color: #000000;
+    background-color: #403c42;
+    border-radius: 5px;
 }
 .server__footer {
     display: flex;

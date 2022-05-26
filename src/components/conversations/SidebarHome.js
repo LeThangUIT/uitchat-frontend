@@ -34,37 +34,40 @@ function SidebarHome() {
   //   );
   // }
   const { user: currentUser } = useSelector((state) => state.auth);
-  const conversation = useSelector(state => state.conversation.data);
-  const guestId = useParams().guestId;
-  const [Data, setData] = useState([])
+  const conversation = useSelector((state) => state.conversation.data);
+  const receiverId = useParams().receiverId;
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   useEffect(() => {
     if (!currentUser) {
-      navigate('/login')
+      navigate("/login");
     }
-  }, [currentUser])
+  }, [currentUser]);
 
-  const dispatch = useDispatch()
-  useEffect((Data) => {
-    dispatch(fetchConversationData(guestId)).unwrap().then(data => {
-      return data
-    }).catch(err => console.log(err))
-  }, [])
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchConversationData(receiverId))
+      .unwrap()
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   // Data.results.map(element => {
   //   console.log(element.user[0].name)
   // });
-  console.log(conversation)
+  // console.log(conversation)
   // console.log(Data.results)
-
 
   return (
     <div className="conversation">
       <img className="conversationImg" src="" alt="" />
-      <span className="conversationName"><h2>{conversation[0]?.user[0].name}</h2></span>
+      <span className="conversationName">
+        {/* <h2>{conversation[0]?.user[0].name}</h2> */}
+      </span>
     </div>
-  )
+  );
 }
 
 export default SidebarHome;

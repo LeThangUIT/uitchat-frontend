@@ -38,6 +38,7 @@ const login = (email, password) => {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("token", JSON.stringify(response.data.access_token));
       }
+      console.log(response.data)
       return response.data;
     });
 };

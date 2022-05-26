@@ -19,6 +19,7 @@ const Register = () => {
   const initialValues = {
     email: "",
     password: "",
+    confirmPassword: "",
     name: "",
   };
   const validationSchema = Yup.object().shape({
@@ -41,6 +42,13 @@ const Register = () => {
           val && val.toString().length >= 6 && val.toString().length <= 40
       )
       .required("This field is required!"),
+    confirmPassword: Yup.string().when("password", {
+      is: val => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref("password")],
+        "Both password need to be the same"
+      )
+    })
   });
   const [image, setImage] = React.useState(null);
   const handleImageChange = (e) => {
@@ -115,6 +123,15 @@ const Register = () => {
                     className="alert alert-danger"
                   />
                 </div>
+                <div className="form-group">
+                  <label htmlFor="confirmPassword">Confirm password</label>
+                  <Field name="confirmPassword" type="password" className="form-control" />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    component="div"
+                    className="alert alert-warning"
+                  />
+              </div>
                 <div className="form-group">
                   <label htmlFor="name">Username</label>
                   <Field name="name" type="text" className="form-control" />

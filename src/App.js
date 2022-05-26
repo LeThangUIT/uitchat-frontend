@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 import Register from "./components/register/Register";
 import Profile from "./components/profile/Profile";
@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     if (!currentUser) {
-      navigate("/login");
+      navigate("login");
     }
   }, [currentUser]);
   return (
@@ -25,7 +25,8 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/servers" element={<Server />}>
+          <Route path="servers" element={<Server />}>
+            <Route index element={<Navigate to="servers/@me" />} />
             <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
               <Route path=":guestId" element={<Chat />} />
@@ -35,9 +36,9 @@ function App() {
               <Route path=":channelId" element={<Chat />} />
             </Route>
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

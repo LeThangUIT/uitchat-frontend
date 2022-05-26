@@ -1,8 +1,10 @@
-import "./Footer.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsTwitter, BsInstagram, BsYoutube } from "react-icons/bs";
 import { FaDiscord } from "react-icons/fa";
 import { ImFacebook2 } from "react-icons/im";
+
+import "./Footer.css";
+
 function Footer() {
   return (
     <div className="footer">
