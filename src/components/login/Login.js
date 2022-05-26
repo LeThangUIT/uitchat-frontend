@@ -5,6 +5,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { login } from "../../features/authSlice";
 import { clearMessage } from "../../features/messageSlice";
+import Button from "@mui/material/Button";
 import "./Login.css";
 const Login = (props) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -20,7 +21,14 @@ const Login = (props) => {
   };
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("This field is required!"),
-    password: Yup.string().required("This field is required!"),
+    password: Yup.string()
+      .test(
+        "len",
+        "The password must be between 6 and 40 characters.",
+        (val) =>
+          val && val.toString().length >= 6 && val.toString().length <= 40
+      )
+      .required("This field is required!"),
   });
   const handleLogin = (formValue) => {
     const { email, password } = formValue;
@@ -66,13 +74,20 @@ const Login = (props) => {
                 className="alert alert-danger"
               />
             </div>
+            {message && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  {message}
+                </div>
+              </div>
+            )}
             <div className="form-group-login">
-              <button type="submit" className="btn_login" disabled={loading}>
+              <Button type="submit" className="btn_login" disabled={loading}>
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
                 <span>Login</span>
-              </button>
+              </Button>
             </div>
             <span className="ask_account">Need an account?</span>
             <Link to={"/register"} className="nav-link">
@@ -81,13 +96,6 @@ const Login = (props) => {
           </Form>
         </Formik>
       </div>
-      {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

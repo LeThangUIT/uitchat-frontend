@@ -9,12 +9,7 @@ export const register = createAsyncThunk(
       const data = await AuthService.register(email, password, name, avatar);
       return { user: data };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = error.response.data.error
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -27,12 +22,7 @@ export const login = createAsyncThunk(
       const data = await AuthService.login(email, password);
       return { user: data };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = error.response.data
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -48,12 +38,8 @@ export const fetchUpdateUser = createAsyncThunk(
       const data = await AuthService.update(dataUser);
       return data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      console.log(error.response)
+      const message = error.response.data.status
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }

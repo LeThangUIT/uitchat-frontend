@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { register } from "../../features/authSlice";
 import { clearMessage } from "../../features/messageSlice";
 import "./Register.css";
+import { Button } from "@mui/material";
 const Register = () => {
   const [successful, setSuccessful] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -43,12 +44,12 @@ const Register = () => {
       )
       .required("This field is required!"),
     confirmPassword: Yup.string().when("password", {
-      is: val => (val && val.length > 0 ? true : false),
+      is: (val) => (val && val.length > 0 ? true : false),
       then: Yup.string().oneOf(
         [Yup.ref("password")],
         "Both password need to be the same"
-      )
-    })
+      ),
+    }),
   });
   const [image, setImage] = React.useState(null);
   const handleImageChange = (e) => {
@@ -125,13 +126,17 @@ const Register = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="confirmPassword">Confirm password</label>
-                  <Field name="confirmPassword" type="password" className="form-control" />
+                  <Field
+                    name="confirmPassword"
+                    type="password"
+                    className="form-control"
+                  />
                   <ErrorMessage
                     name="confirmPassword"
                     component="div"
                     className="alert alert-warning"
                   />
-              </div>
+                </div>
                 <div className="form-group">
                   <label htmlFor="name">Username</label>
                   <Field name="name" type="text" className="form-control" />
@@ -155,10 +160,24 @@ const Register = () => {
                     className="alert alert-danger"
                   />
                 </div>
+                {message && (
+                  <div className="form-group">
+                    <div
+                      className={
+                        successful
+                          ? "alert alert-success"
+                          : "alert alert-danger"
+                      }
+                      role="alert"
+                    >
+                      {message}
+                    </div>
+                  </div>
+                )}
                 <div className="form-group">
-                  <button type="submit" className="btn_login">
+                  <Button type="submit" className="btn_login">
                     Sign Up
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -168,18 +187,6 @@ const Register = () => {
           </Form>
         </Formik>
       </div>
-      {message && (
-        <div className="form-group">
-          <div
-            className={
-              successful ? "alert alert-success" : "alert alert-danger"
-            }
-            role="alert"
-          >
-            {message}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

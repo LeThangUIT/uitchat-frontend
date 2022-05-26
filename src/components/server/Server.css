@@ -52,16 +52,3 @@
     background-color: #3BA55D;
     color: white;
 }
-
-.hide {
-    display: none;
-}
-
-.server__avt:hover + .hide {
-    display: block;
-    color: white;
-    background-color: black;
-    max-width: 300px;
-    position: absolute;
-    left: 5%;
-}
