@@ -25,8 +25,8 @@ function App() {
       <div className="container mt-3">
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/servers" element={<Server />}>
-            <Route index element={<Navigate to="/servers/@me" />} />
+          <Route path="servers" element={<Server />}>
+            <Route index element={<Navigate to="servers/@me" />} />
             <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
               <Route path=":guestId" element={<Chat />} />
@@ -36,9 +36,9 @@ function App() {
               <Route path=":channelId" element={<Chat />} />
             </Route>
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
