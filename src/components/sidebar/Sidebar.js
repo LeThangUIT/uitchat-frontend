@@ -106,6 +106,7 @@ function Sidebar(props) {
         <div className="sidebar__profileInfo">
           <h5>{currentUser.name}</h5>
           {/* <p>#{currentUser.access_token.substring(0, 5)}</p> */}
+          {console.log(1, currentUser.user)}
         </div>
         <div className="sidebar__profileIcons">
           <MicIcon className="sidebar__profileIcon" />

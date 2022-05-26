@@ -10,6 +10,7 @@ import "./Profile.css";
 import { fetchUpdateUser, logout } from "../../features/authSlice";
 import UpdateEmail from "../sidebar/UpdateEmail";
 import UpdateName from "../sidebar/UpdateName";
+import UpdatePassword from "../sidebar/UpdatePassword";
 const Profile = () => {
   const dispatch = useDispatch();
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -80,9 +81,7 @@ const Profile = () => {
               <UpdateEmail/>
             </div>
             <div className="profile__edit">
-              <Button className="profile__button" variant="contained">
-                Change password
-              </Button>
+              <UpdatePassword/>
             </div>
           </div>
         </div>
