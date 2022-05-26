@@ -7,6 +7,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as Yup from "yup";
 import { register } from "../../features/authSlice";
 import { clearMessage } from "../../features/messageSlice";
+import "./Register.css";
 const Register = () => {
   const [successful, setSuccessful] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -26,9 +27,7 @@ const Register = () => {
         "len",
         "The username must be between 3 and 20 characters.",
         (val) =>
-          val &&
-          val.toString().length >= 3 &&
-          val.toString().length <= 20
+          val && val.toString().length >= 3 && val.toString().length <= 20
       )
       .required("This field is required!"),
     email: Yup.string()
@@ -39,9 +38,7 @@ const Register = () => {
         "len",
         "The password must be between 6 and 40 characters.",
         (val) =>
-          val &&
-          val.toString().length >= 6 &&
-          val.toString().length <= 40
+          val && val.toString().length >= 6 && val.toString().length <= 40
       )
       .required("This field is required!"),
   });
@@ -52,26 +49,23 @@ const Register = () => {
     }
   };
   const handleRegister = (formValue) => {
-    if(image !== null) {
-      const imageRef = ref(storage, "image "+ formValue.email)
-      uploadBytes(imageRef, image)
-        .then(() => {
-          getDownloadURL(imageRef)
-            .then(async (url) => {
-              formValue.avatar = url;
-              const { email, password, name, avatar } = formValue;
-              dispatch(register({ email, password, name, avatar }))
-                .unwrap()
-                .then(() => {
-                  setSuccessful(true);
-                })
-                .catch(() => {
-                  setSuccessful(false);
-                });
+    if (image !== null) {
+      const imageRef = ref(storage, "image " + formValue.email);
+      uploadBytes(imageRef, image).then(() => {
+        getDownloadURL(imageRef).then(async (url) => {
+          formValue.avatar = url;
+          const { email, password, name, avatar } = formValue;
+          dispatch(register({ email, password, name, avatar }))
+            .unwrap()
+            .then(() => {
+              setSuccessful(true);
             })
-        })
-    }
-    else {
+            .catch(() => {
+              setSuccessful(false);
+            });
+        });
+      });
+    } else {
       formValue.avatar = null;
       const { email, password, name, avatar } = formValue;
       dispatch(register({ email, password, name, avatar }))
@@ -90,11 +84,6 @@ const Register = () => {
   return (
     <div className="col-md-12 signup-form">
       <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -104,6 +93,7 @@ const Register = () => {
             {!successful && (
               <div>
                 <div className="form-group">
+                  <div className="hi create_account">Create an account</div>
                   <label htmlFor="email">Email</label>
                   <Field name="email" type="email" className="form-control" />
                   <ErrorMessage
@@ -140,7 +130,7 @@ const Register = () => {
                     name="avatar"
                     type="file"
                     onChange={handleImageChange}
-                    className="form-control"
+                    className="button_image"
                   />
                   <ErrorMessage
                     name="avatar"
@@ -149,12 +139,14 @@ const Register = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                  <button type="submit" className="btn_login">
+                    Sign Up
+                  </button>
                 </div>
               </div>
             )}
             <Link to={"/login"} className="nav-link">
-                Login
+              Already have an account?
             </Link>
           </Form>
         </Formik>
@@ -162,7 +154,9 @@ const Register = () => {
       {message && (
         <div className="form-group">
           <div
-            className={successful ? "alert alert-success" : "alert alert-danger"}
+            className={
+              successful ? "alert alert-success" : "alert alert-danger"
+            }
             role="alert"
           >
             {message}

@@ -51,6 +51,7 @@
   cursor: pointer;
   transition-duration: 200ms;
   font-family: inherit;
+  text-decoration: none;
 }
 .header .login .button_login:hover {
   box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.3);

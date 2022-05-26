@@ -1,6 +1,9 @@
 .container_landingPage {
   color: #fff;
   background-color: #404eed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .banner {
   background-color: #404eed;
