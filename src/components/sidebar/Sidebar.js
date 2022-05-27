@@ -59,6 +59,18 @@ function Sidebar(props) {
     }
   }, [socket]);
 
+  useEffect(() => {
+    if (socket) {
+      const deletedServer = {
+        name: "deleted-server",
+        callback: (server) => {
+          navigate("/servers/@me");
+        },
+      };
+      dispatch(socketAddListener(deletedServer));
+    }
+  }, [socket]);
+
   return (
     <div className="sidebar">
       <div className="sidebar__top">
