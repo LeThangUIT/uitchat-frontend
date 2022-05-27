@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.26.1",
     "country-flag-icons": "^1.5.2",
+    "emoji-picker-react": "^3.5.1",
     "firebase": "^9.6.10",
     "flag-icon-css": "^4.1.7",
     "flag-icons": "^6.4.2",

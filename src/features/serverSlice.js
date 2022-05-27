@@ -53,7 +53,17 @@ const serverSlice = createSlice({
     loading: null,
     data: [],
   },
-  reducers: {},
+  reducers: {
+    updateServerFromSocket: (state, action) => {
+      const updatedServer = action.payload;
+      state.data.map((server) => {
+        if (server._id === updatedServer._id) {
+          server.name = updatedServer.name;
+          server.avatar = updatedServer.avatar;
+        }
+      });
+    },
+  },
   extraReducers: {
     [fetchServerData.pending](state) {
       state.loading = HTTP_STATUS.PENDING;
@@ -87,4 +97,5 @@ const serverSlice = createSlice({
   },
 });
 export const selectServer = (state) => state.server.data;
+export const { updateServerFromSocket } = serverSlice.actions;
 export default serverSlice.reducer;

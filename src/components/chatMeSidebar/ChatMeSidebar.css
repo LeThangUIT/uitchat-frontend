@@ -1,0 +1,15 @@
+.chatMeSidebar {
+  display: flex;
+  background-color: #2F3136;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.chatMeSidebar > .chatMeSidebar__status {
+  color: #968679;
+  font-weight: 500;
+}
+
+.chatMeSidebar > .chatMeSidebar__notify {
+  padding: 1rem 0;
+}

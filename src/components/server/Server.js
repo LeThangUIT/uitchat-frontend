@@ -2,8 +2,12 @@ import { Avatar } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Outlet, Link } from "react-router-dom";
-import { fetchServerData, selectServer } from "../../features/serverSlice";
-import { selectChannel } from "../../features/channelSlice";
+import {
+  fetchServerData,
+  selectServer,
+  updateServerFromSocket,
+} from "../../features/serverSlice";
+import { socketAddListener } from "../../features/socketSlice";
 import AddServer from "./AddServer";
 
 import "./Server.css";
@@ -22,6 +26,16 @@ function Server() {
 
   useEffect(() => {
     dispatch(fetchServerData());
+  }, []);
+
+  useEffect(() => {
+    const updatedServer = {
+      name: "updated-server",
+      callback: (server) => {
+        dispatch(updateServerFromSocket(server));
+      },
+    };
+    dispatch(socketAddListener(updatedServer));
   }, []);
 
   return (

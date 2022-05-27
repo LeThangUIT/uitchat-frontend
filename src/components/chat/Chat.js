@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./Chat.css";
-import Member from "./member/Member";
+import ChatServerSidebar from "../chatServerSidebar/ChatServerSidebar";
 import ChatHeader from "./chatHeader/ChatHeader";
 import Messages from "../messages/Messages";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-import GifBoxIcon from "@mui/icons-material/GifBox";
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import ChatInput from "../chatInput/ChatInput";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,15 +14,16 @@ import {
   fetchConversationData,
   selectConversation,
   selectInputMessages,
-  addInputMessage,
   addNewMessageFromSocket,
 } from "../../features/conversationSlice";
-
 import {
   socketAddListener,
   socketEmitEvent,
   selectSocket,
 } from "../../features/socketSlice";
+
+import "./Chat.css";
+import ChatMeSidebar from "../chatMeSidebar/ChatMeSidebar";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -114,29 +111,14 @@ function Chat() {
       <div className="chat__messAndMem">
         <div className="chat__mess">
           <Messages messages={conversation} currentUserId={currentUserId} />
-          <div className="chat__input">
-            <AddCircleIcon fontSize="large" />
-            <div className="form">
-              <input
-                type="text"
-                placeholder={`Message #${channel.name}`}
-                value={message}
-                onChange={(e) => {
-                  let val = e.target.value;
-                  dispatch(addInputMessage({ channelId, message: val }));
-                  setMessage(val);
-                }}
-                onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
-              />
-            </div>
-            <div className="chat__inputIcons">
-              <CardGiftcardIcon />
-              <GifBoxIcon />
-              <EmojiEmotionsIcon />
-            </div>
-          </div>
+          <ChatInput
+            channel={channel}
+            message={message}
+            setMessage={setMessage}
+            sendMessage={sendMessage}
+          />
         </div>
-        <Member channel={channel} />
+        {serverId ? <ChatServerSidebar channel={channel} /> : <ChatMeSidebar />}
       </div>
     </div>
   );

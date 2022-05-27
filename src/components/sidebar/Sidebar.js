@@ -14,13 +14,17 @@ import HeadsetIcon from "@mui/icons-material/Headset";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useDispatch, useSelector } from "react-redux";
 import { selectChannel } from "../../features/channelSlice";
-import { selectInfoServer } from "../../features/infoServerSlice";
+import {
+  selectInfoServer,
+  updateInfoServerFromSocket,
+} from "../../features/infoServerSlice";
 import { fetchInfoServerData } from "../../features/infoServerSlice";
 import { fetchChannelData } from "../../features/channelSlice";
 
 import AddChannel from "../addChannel/AddChannel";
 
 import "./Sidebar.css";
+import { selectSocket, socketAddListener } from "../../features/socketSlice";
 
 function Sidebar(props) {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -28,6 +32,7 @@ function Sidebar(props) {
   const dispatch = useDispatch();
   const channels = useSelector(selectChannel);
   const infoServer = useSelector(selectInfoServer);
+  const socket = useSelector(selectSocket);
   const serverId = props.serverId;
 
   useEffect(() => {
@@ -41,6 +46,18 @@ function Sidebar(props) {
       dispatch(fetchChannelData(serverId));
     }
   }, [serverId]);
+
+  useEffect(() => {
+    if (socket) {
+      const updatedServer = {
+        name: "updated-server",
+        callback: (server) => {
+          dispatch(updateInfoServerFromSocket(server));
+        },
+      };
+      dispatch(socketAddListener(updatedServer));
+    }
+  }, [socket]);
 
   return (
     <div className="sidebar">
@@ -106,7 +123,6 @@ function Sidebar(props) {
         <div className="sidebar__profileInfo">
           <h5>{currentUser.name}</h5>
           {/* <p>#{currentUser.access_token.substring(0, 5)}</p> */}
-          {console.log(1, currentUser.user)}
         </div>
         <div className="sidebar__profileIcons">
           <MicIcon className="sidebar__profileIcon" />
