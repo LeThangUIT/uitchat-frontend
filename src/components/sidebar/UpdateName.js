@@ -23,8 +23,10 @@ function UpdateName() {
   };
   const dispatch = useDispatch()
   const handleSave = () => {
-    dispatch(fetchUpdateUser({ name: name}))
-    setOpen(false)
+    if(name !== "") {
+      dispatch(fetchUpdateUser({ name: name}))
+      setOpen(false)
+    }
   }
   return (
     <div>

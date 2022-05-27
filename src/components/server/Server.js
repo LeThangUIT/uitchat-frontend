@@ -1,4 +1,4 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Tooltip, tooltipClasses } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Outlet, Link } from "react-router-dom";
@@ -9,8 +9,22 @@ import {
 } from "../../features/serverSlice";
 import { socketAddListener } from "../../features/socketSlice";
 import AddServer from "./AddServer";
-
 import "./Server.css";
+import { styled } from '@mui/material/styles';
+
+
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+    fontSize: 18,
+    padding: 16,
+  },
+}));
 
 function Server() {
   const dispatch = useDispatch();
@@ -55,14 +69,15 @@ function Server() {
           {servers.map((server) => {
             return (
               <div key={server._id} className="server__server">
-                <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
-                  <Avatar
-                    src={server.avatar}
-                    sx={{ width: "50px", height: "50px" }}
-                    className="server__avt"
-                  />
-                </Link>
-                <div className="hide">{server.name}</div>
+                  <BootstrapTooltip title={server.name} placement="right" arrow>
+                    <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
+                      <Avatar
+                        src={server.avatar}
+                        sx={{ width: "50px", height: "50px" }}
+                        className="server__avt"
+                      />
+                    </Link>
+                  </BootstrapTooltip>
               </div>
             );
           })}

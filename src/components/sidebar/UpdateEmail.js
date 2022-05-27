@@ -31,7 +31,14 @@ function UpdateEmail() {
   };
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("This field is required!"),
-    password: Yup.string().required("This field is required!"),
+    password: Yup.string()
+      .test(
+        "len",
+        "The password must be between 6 and 40 characters.",
+        (val) =>
+          val && val.toString().length >= 6 && val.toString().length <= 40
+      )
+      .required("This field is required!"),
   });
   const handleDone = (formValue) => {
     const { email, password } = formValue;

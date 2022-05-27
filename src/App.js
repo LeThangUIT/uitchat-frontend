@@ -22,7 +22,7 @@ function App() {
   }, [currentUser]);
   return (
     <div className="app">
-      <div className="container mt-3">
+      <div className="container">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="servers" element={<Server />}>

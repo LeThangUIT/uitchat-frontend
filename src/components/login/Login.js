@@ -1,10 +1,12 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { login } from "../../features/authSlice";
 import { clearMessage } from "../../features/messageSlice";
+import Button from "@mui/material/Button";
+import "./Login.css";
 const Login = (props) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,14 @@ const Login = (props) => {
   };
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("This field is required!"),
-    password: Yup.string().required("This field is required!"),
+    password: Yup.string()
+      .test(
+        "len",
+        "The password must be between 6 and 40 characters.",
+        (val) =>
+          val && val.toString().length >= 6 && val.toString().length <= 40
+      )
+      .required("This field is required!"),
   });
   const handleLogin = (formValue) => {
     const { email, password } = formValue;
@@ -37,13 +46,8 @@ const Login = (props) => {
     return <Navigate to="/servers/@me" />;
   }
   return (
-    <div className="col-md-12 login-form">
-      <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
+    <div className="login-form">
+      <div className="card">
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -51,6 +55,8 @@ const Login = (props) => {
         >
           <Form>
             <div className="form-group">
+              <div className="hi">Welcome back!</div>
+              <div className="slogan">We're so happy to see you again! </div>
               <label htmlFor="email">email</label>
               <Field name="email" type="email" className="form-control" />
               <ErrorMessage
@@ -68,27 +74,28 @@ const Login = (props) => {
                 className="alert alert-danger"
               />
             </div>
-            <div className="form-group">
-              <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+            {message && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  {message}
+                </div>
+              </div>
+            )}
+            <div className="form-group-login">
+              <Button type="submit" className="btn_login" disabled={loading}>
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
                 <span>Login</span>
-              </button>
+              </Button>
             </div>
+            <span className="ask_account">Need an account?</span>
             <Link to={"/register"} className="nav-link">
-                Register
+              Register
             </Link>
           </Form>
         </Formik>
       </div>
-      {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

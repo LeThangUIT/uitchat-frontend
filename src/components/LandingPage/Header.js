@@ -20,7 +20,9 @@ function Header() {
         <a href="#">Careers</a>
       </div>
       <div className="login">
-        <button className="button_login">Open UITChat</button>
+        <a href="/login" className="button_login">
+          Open UITChat
+        </a>
         <FiMenu className="menu" />
       </div>
     </div>
