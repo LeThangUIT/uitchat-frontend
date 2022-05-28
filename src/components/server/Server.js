@@ -9,7 +9,7 @@ import {
   updateServerFromSocket,
   addNewServerFromSocket,
 } from "../../features/serverSlice";
-import { socketAddListener } from "../../features/socketSlice";
+import { selectSocket, socketAddListener } from "../../features/socketSlice";
 import AddServer from "./AddServer";
 import "./Server.css";
 import { styled } from "@mui/material/styles";
@@ -31,6 +31,7 @@ function Server() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const servers = useSelector(selectServer);
+  const socket = useSelector(selectSocket);
   const { user: currentUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -40,75 +41,86 @@ function Server() {
   }, [currentUser]);
 
   useEffect(() => {
-    dispatch(fetchServerData());
+    if (currentUser) {
+      dispatch(fetchServerData());
+    }
   }, []);
 
   useEffect(() => {
-    const updatedServer = {
-      name: "updated-server",
-      callback: (server) => {
-        dispatch(updateServerFromSocket(server));
-      },
-    };
-    dispatch(socketAddListener(updatedServer));
-  }, []);
+    if (socket) {
+      const updatedServer = {
+        name: "updated-server",
+        callback: (server) => {
+          dispatch(updateServerFromSocket(server));
+        },
+      };
+      dispatch(socketAddListener(updatedServer));
+    }
+  }, [socket]);
 
   useEffect(() => {
-    const acceptedInvite = {
-      name: "accepted-invite",
-      callback: (server) => {
-        dispatch(addNewServerFromSocket(server));
-      },
-    };
-    dispatch(socketAddListener(acceptedInvite));
+    if (socket) {
+      const acceptedInvite = {
+        name: "accepted-invite",
+        callback: (server) => {
+          dispatch(addNewServerFromSocket(server));
+        },
+      };
+      dispatch(socketAddListener(acceptedInvite));
 
-    const deleteServer = {
-      name: "deleted-server",
-      callback: (serverId) => {
-        dispatch(deleteServerFromSocket(serverId));
-      },
-    };
-    dispatch(socketAddListener(deleteServer));
-  }, []);
+      const deleteServer = {
+        name: "deleted-server",
+        callback: (serverId) => {
+          dispatch(deleteServerFromSocket(serverId));
+        },
+      };
+      dispatch(socketAddListener(deleteServer));
+    }
+  }, [socket]);
 
   return (
-    <div className="flexColumn">
-      <div className="server">
-        <div className="server__home">
-          <Avatar
-            onClick={() => {
-              navigate("/servers/@me");
-            }}
-            sx={{ width: "50px", height: "50px" }}
-            className="server__avt"
-            src="https://pngset.com/images/discord-icon-background-discord-logo-sphere-graphics-art-moon-transparent-png-792846.png"
-          />
+    currentUser && (
+      <div className="flexColumn">
+        <div className="server">
+          <div className="server__home">
+            <Avatar
+              onClick={() => {
+                navigate("/servers/@me");
+              }}
+              sx={{ width: "50px", height: "50px" }}
+              className="server__avt"
+              src="https://pngset.com/images/discord-icon-background-discord-logo-sphere-graphics-art-moon-transparent-png-792846.png"
+            />
+          </div>
+          <div className="server__servers">
+            {servers.map((server) => {
+              return (
+                <div key={server._id} className="server__server">
+                  <BootstrapTooltip title={server.name} placement="right" arrow>
+                    <Link
+                      to={`${server._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Avatar
+                        src={server.avatar}
+                        sx={{ width: "50px", height: "50px" }}
+                        className="server__avt"
+                      />
+                    </Link>
+                  </BootstrapTooltip>
+                </div>
+              );
+            })}
+          </div>
+          <div className="server__footer">
+            <AddServer dataFromParent={currentUser} />
+          </div>
         </div>
-        <div className="server__servers">
-          {servers.map((server) => {
-            return (
-              <div key={server._id} className="server__server">
-                <BootstrapTooltip title={server.name} placement="right" arrow>
-                  <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
-                    <Avatar
-                      src={server.avatar}
-                      sx={{ width: "50px", height: "50px" }}
-                      className="server__avt"
-                    />
-                  </Link>
-                </BootstrapTooltip>
-              </div>
-            );
-          })}
-        </div>
-        <div className="server__footer">
-          <AddServer dataFromParent={currentUser} />
+        <div className="server__place">
+          <Outlet />
         </div>
       </div>
-      <div className="server__place">
-        <Outlet />
-      </div>
-    </div>
+    )
   );
 }
 export default Server;

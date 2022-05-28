@@ -1,7 +1,21 @@
-import "./LandingPage.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import "./LandingPage.css";
+
 function LandingPage() {
+  const { user: currentUser } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/servers/@me");
+    }
+  }, [currentUser]);
+
   return (
     <>
       <div className="container_landingPage">

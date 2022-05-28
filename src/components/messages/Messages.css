@@ -1,19 +1,23 @@
 .messages {
-  padding: 0 1rem;
   flex-grow: 1;
 }
 
-.messages > .messages__container {
+.messages > .messages__outer {
   overflow: auto;
-  height: 75vh;
+  height: 78vh;
 }
 
-.messages > .messages__container::-webkit-scrollbar {
+.messages > .messages__outer::-webkit-scrollbar {
   width: 6px;
   background-color: rgba(122, 114, 114, 0.132);
 }
 
-.messages > .messages__container::-webkit-scrollbar-thumb {
+.messages > .messages__outer::-webkit-scrollbar-thumb {
   background-color: rgb(41, 40, 39);
   border-radius: 5px;
+}
+
+.messages__outer > .messages__inner {
+  height: 100%;
+  padding: 0 1rem;
 }
