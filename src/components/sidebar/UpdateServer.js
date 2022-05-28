@@ -36,7 +36,7 @@ export default function UpdateServer() {
   const handleUpdate = () => {
     handleClose();
     if (image !== null) {
-      const imageRef = ref(storage, "image");
+      const imageRef = ref(storage, "image" + infoServer._id);
       uploadBytes(imageRef, image)
         .then(() => {
           getDownloadURL(imageRef)

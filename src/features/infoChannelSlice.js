@@ -19,7 +19,12 @@ const infoChannelSlice = createSlice({
     loading: null,
     data: {},
   },
-  reducers: {},
+  reducers: {
+    addNewMemberFromSocket: (state, action) => {
+      const memberId = action.payload;
+      state.data.memberIds.push(memberId);
+    },
+  },
   extraReducers: {
     [fetchInfoChannelData.pending](state) {
       state.loading = HTTP_STATUS.PENDING;
@@ -34,4 +39,5 @@ const infoChannelSlice = createSlice({
   },
 });
 export const selectInfoChannel = (state) => state.infoChannel.data;
+export const { addNewMemberFromSocket } = infoChannelSlice.actions;
 export default infoChannelSlice.reducer;

@@ -6,12 +6,12 @@ import {
   fetchServerData,
   selectServer,
   updateServerFromSocket,
+  addNewServerFromSocket,
 } from "../../features/serverSlice";
 import { socketAddListener } from "../../features/socketSlice";
 import AddServer from "./AddServer";
 import "./Server.css";
-import { styled } from '@mui/material/styles';
-
+import { styled } from "@mui/material/styles";
 
 const BootstrapTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
@@ -52,6 +52,16 @@ function Server() {
     dispatch(socketAddListener(updatedServer));
   }, []);
 
+  useEffect(() => {
+    const acceptedInvite = {
+      name: "accepted-invite",
+      callback: (server) => {
+        dispatch(addNewServerFromSocket(server));
+      },
+    };
+    dispatch(socketAddListener(acceptedInvite));
+  }, []);
+
   return (
     <div className="flexColumn">
       <div className="server">
@@ -69,15 +79,15 @@ function Server() {
           {servers.map((server) => {
             return (
               <div key={server._id} className="server__server">
-                  <BootstrapTooltip title={server.name} placement="right" arrow>
-                    <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
-                      <Avatar
-                        src={server.avatar}
-                        sx={{ width: "50px", height: "50px" }}
-                        className="server__avt"
-                      />
-                    </Link>
-                  </BootstrapTooltip>
+                <BootstrapTooltip title={server.name} placement="right" arrow>
+                  <Link to={`${server._id}`} style={{ textDecoration: "none" }}>
+                    <Avatar
+                      src={server.avatar}
+                      sx={{ width: "50px", height: "50px" }}
+                      className="server__avt"
+                    />
+                  </Link>
+                </BootstrapTooltip>
               </div>
             );
           })}

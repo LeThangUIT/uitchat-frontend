@@ -1,16 +1,19 @@
-.chat__messages {
+.messages {
   padding: 0 1rem;
-  height: 80vh;
-  overflow: auto;
-  flex: auto;
+  flex-grow: 1;
 }
 
-.chat__messages::-webkit-scrollbar {
+.messages > .messages__container {
+  overflow: auto;
+  height: 75vh;
+}
+
+.messages > .messages__container::-webkit-scrollbar {
   width: 6px;
   background-color: rgba(122, 114, 114, 0.132);
 }
 
-.chat__messages::-webkit-scrollbar-thumb {
+.messages > .messages__container::-webkit-scrollbar-thumb {
   background-color: rgb(41, 40, 39);
   border-radius: 5px;
 }

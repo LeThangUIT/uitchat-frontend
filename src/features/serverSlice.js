@@ -54,6 +54,10 @@ const serverSlice = createSlice({
     data: [],
   },
   reducers: {
+    addNewServerFromSocket: (state, action) => {
+      const newServer = action.payload;
+      state.data.push(newServer);
+    },
     updateServerFromSocket: (state, action) => {
       const updatedServer = action.payload;
       state.data.map((server) => {
@@ -97,5 +101,6 @@ const serverSlice = createSlice({
   },
 });
 export const selectServer = (state) => state.server.data;
-export const { updateServerFromSocket } = serverSlice.actions;
+export const { addNewServerFromSocket, updateServerFromSocket } =
+  serverSlice.actions;
 export default serverSlice.reducer;
