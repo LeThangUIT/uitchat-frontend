@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Outlet, Link } from "react-router-dom";
 import {
+  deleteServerFromSocket,
   fetchServerData,
   selectServer,
   updateServerFromSocket,
@@ -60,6 +61,14 @@ function Server() {
       },
     };
     dispatch(socketAddListener(acceptedInvite));
+
+    const deleteServer = {
+      name: "deleted-server",
+      callback: (serverId) => {
+        dispatch(deleteServerFromSocket(serverId));
+      },
+    };
+    dispatch(socketAddListener(deleteServer));
   }, []);
 
   return (

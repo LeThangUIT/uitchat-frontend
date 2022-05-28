@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { selectInfoServer } from "../../features/infoServerSlice";
 import { fetchDeleteServer } from "../../features/serverSlice";
 import DeleteMember from "./DeleteMember";
+import { socketEmitEvent } from "../../features/socketSlice";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -82,9 +83,22 @@ export default function EditServer() {
     setAnchorEl(null);
   };
   const handleDeleteServer = () => {
-    navigate("/servers/@me");
-    dispatch(fetchDeleteServer(infoServer._id));
-    handleClose();
+    if (window.confirm("Are you sure you want to delete this server?")) 
+    { 
+      navigate("/servers/@me");
+      // dispatch(fetchDeleteServer(infoServer._id));
+      const deleteServer = {
+        name: "delete-server",
+        data: {
+          serverId: infoServer._id,
+        },
+      };
+      dispatch(socketEmitEvent(deleteServer));
+    } 
+    else {
+      console.log("Không xóa");
+    }
+    handleClose();    
   };
   return (
     <div>

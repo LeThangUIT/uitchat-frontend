@@ -67,6 +67,11 @@ const serverSlice = createSlice({
         }
       });
     },
+    deleteServerFromSocket: (state, action) => {
+      state.data = current(state).data.filter(
+        (server) => server._id !== action.payload
+      );
+    },
   },
   extraReducers: {
     [fetchServerData.pending](state) {
@@ -101,6 +106,9 @@ const serverSlice = createSlice({
   },
 });
 export const selectServer = (state) => state.server.data;
-export const { addNewServerFromSocket, updateServerFromSocket } =
-  serverSlice.actions;
+export const {
+  addNewServerFromSocket,
+  updateServerFromSocket,
+  deleteServerFromSocket,
+} = serverSlice.actions;
 export default serverSlice.reducer;
