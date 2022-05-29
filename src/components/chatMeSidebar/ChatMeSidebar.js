@@ -10,6 +10,7 @@ import {
   selectInvite,
 } from "../../features/inviteSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchContactData, selectContact } from "../../features/contactSlice";
 import {
   selectSocket,
   socketAddListener,
@@ -20,10 +21,12 @@ import "./ChatMeSidebar.css";
 
 export default function ChatMeSidebar() {
   const invites = useSelector(selectInvite);
+  const contacts = useSelector(selectContact);
   const socket = useSelector(selectSocket);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchContactData());
     dispatch(fetchInviteData());
   }, []);
 

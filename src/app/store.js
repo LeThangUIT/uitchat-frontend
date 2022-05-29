@@ -8,6 +8,7 @@ import infoChannelReducer from "../features/infoChannelSlice";
 import memberReducer from "../features/memberSlice";
 import conversationReducer from "../features/conversationSlice";
 import inviteReducer from "../features/inviteSlice";
+import contactReducer from "../features/contactSlice";
 import socketReducer from "../features/socketSlice";
 
 export const store = configureStore({
@@ -21,6 +22,7 @@ export const store = configureStore({
     member: memberReducer,
     conversation: conversationReducer,
     invite: inviteReducer,
+    contact: contactReducer,
     socket: socketReducer,
   },
   middleware: (getDefaultMiddleware) =>
