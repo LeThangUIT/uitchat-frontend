@@ -39,6 +39,7 @@ export default function InviteUser() {
    dispatch(fetchAddMember({server_id: infoServer._id, owner_ids: [], member_ids: member_id}))
   }
   const handleChange = (event, value) => {
+    console.log(users)
     setSelectedOptions(value);
   }
   return (
@@ -62,7 +63,7 @@ export default function InviteUser() {
                     <TextField
                         {...params}
                         label="selected user"
-                        placeholder="Typing email or name"
+                        placeholder="Typing email"
                     />
                     )}
                 />
