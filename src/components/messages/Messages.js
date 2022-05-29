@@ -39,15 +39,19 @@ export default function Messages({ messages, currentUserId }) {
   }, [socket]);
 
   return (
-    <div className="chat__messages">
-      {messages.map((message, index) => (
-        <div
-          ref={messages.length - 1 === index ? setRef : null}
-          key={message._id}
-        >
-          <Message currentUserId={currentUserId} message={message} />
+    <div className="messages">
+      <div className="messages__outer">
+        <div className="messages__inner">
+          {messages.map((message, index) => (
+            <div
+              ref={messages.length - 1 === index ? setRef : null}
+              key={message._id}
+            >
+              <Message currentUserId={currentUserId} message={message} />
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }

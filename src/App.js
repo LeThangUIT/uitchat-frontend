@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import Register from "./components/register/Register";
 import Profile from "./components/profile/Profile";
@@ -12,14 +11,6 @@ import NotFound from "./components/NotFound/NotFound";
 import Login from "./components/login/Login";
 
 function App() {
-  const navigate = useNavigate();
-  const { user: currentUser } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("login");
-    }
-  }, [currentUser]);
   return (
     <div className="app">
       <div className="container">

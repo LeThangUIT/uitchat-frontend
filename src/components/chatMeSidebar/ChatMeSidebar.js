@@ -1,48 +1,110 @@
-import React from "react";
+import { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
+import {
+  fetchInviteData,
+  addNewInviteFromSocket,
+  removeInviteFromSocket,
+  selectInvite,
+} from "../../features/inviteSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectSocket,
+  socketAddListener,
+  socketEmitEvent,
+} from "../../features/socketSlice";
 
 import "./ChatMeSidebar.css";
 
 export default function ChatMeSidebar() {
-  const notifications = [
-    {
-      senderName: "vinh",
-      serverName: "socket",
-    },
-    {
-      senderName: "tran",
-      serverName: "ie213",
-    },
-  ];
+  const invites = useSelector(selectInvite);
+  const socket = useSelector(selectSocket);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchInviteData());
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      const sendInviteEvent = {
+        name: "send-invite",
+        callback: (invite) => {
+          dispatch(addNewInviteFromSocket(invite));
+        },
+      };
+      dispatch(socketAddListener(sendInviteEvent));
+
+      const removeInviteEvent = {
+        name: "remove-invite",
+        callback: (inviteId) => {
+          dispatch(removeInviteFromSocket(inviteId));
+        },
+      };
+      dispatch(socketAddListener(removeInviteEvent));
+    }
+  }, [socket]);
+
+  const handleAccept = (inviteId, serverId) => {
+    const event = {
+      name: "accept-invite",
+      data: {
+        inviteId,
+        serverId,
+      },
+    };
+    dispatch(socketEmitEvent(event));
+  };
+
+  const handleReject = (inviteId) => {
+    const event = {
+      name: "reject-invite",
+      data: {
+        inviteId,
+      },
+    };
+    dispatch(socketEmitEvent(event));
+  };
 
   return (
     <div className="chatMeSidebar">
       <h4 className="chatMeSidebar__status">Notifications</h4>
-      <div className="chatMeSidebar__notify">
-        {notifications.map((n) => {
+      <div className="chatMeSidebar__invites">
+        {invites.map((invite) => {
+          // console.log(invite);
           return (
-            <Card
-              sx={{
-                mb: "0.5rem",
-                backgroundColor: "black",
-              }}
-            >
-              <CardContent
+            <div key={invite._id} className="card__container">
+              <Card
                 sx={{
-                  color: "white",
+                  mb: "0.5rem",
+                  backgroundColor: "black",
                 }}
               >
-                <b>{n.senderName}</b> invites you join <b>{n.serverName}</b>{" "}
-                server
-              </CardContent>
-              <CardActions>
-                <Button>Accept</Button>
-                <Button>Reject</Button>
-              </CardActions>
-            </Card>
+                <CardContent
+                  sx={{
+                    color: "white",
+                    maxWidth: "12rem",
+                  }}
+                >
+                  <b>{invite.senderId.name}</b> invites you join{" "}
+                  <b>{invite.serverId.name}</b> server
+                </CardContent>
+                <CardActions>
+                  <Button
+                    onClick={() =>
+                      handleAccept(invite._id, invite.serverId._id)
+                    }
+                  >
+                    Accept
+                  </Button>
+                  <Button onClick={() => handleReject(invite._id)}>
+                    Reject
+                  </Button>
+                </CardActions>
+              </Card>
+            </div>
           );
         })}
       </div>

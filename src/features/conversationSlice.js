@@ -54,6 +54,7 @@ const conversationSlice = createSlice({
       state.data.map((message) => {
         if (message._id == messageId) {
           message.deleted = true;
+          message.updatedAt = Date.now();
         }
       });
     },

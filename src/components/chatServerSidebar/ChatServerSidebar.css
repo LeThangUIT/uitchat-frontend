@@ -1,6 +1,5 @@
 .chatServerSidebar {
     display: flex;
-    background-color: #2F3136;
     flex-direction: column;
     padding: 10px;
 }

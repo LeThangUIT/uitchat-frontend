@@ -93,7 +93,7 @@ export default function EditMessage({ own, messageId, setEditing }) {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreVertIcon sx={{ color: grey[500] }} />
+        <MoreVertIcon sx={{ color: grey[500], marginTop: "4px" }} />
       </IconButton>
       <StyledMenu
         id="customized-menu"

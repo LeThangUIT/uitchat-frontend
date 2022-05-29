@@ -21,9 +21,9 @@ import {
   socketEmitEvent,
   selectSocket,
 } from "../../features/socketSlice";
+import ChatMeSidebar from "../chatMeSidebar/ChatMeSidebar";
 
 import "./Chat.css";
-import ChatMeSidebar from "../chatMeSidebar/ChatMeSidebar";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -108,8 +108,8 @@ function Chat() {
   return (
     <div className="chat">
       <ChatHeader channel={channel} />
-      <div className="chat__messAndMem">
-        <div className="chat__mess">
+      <div className="chat__messageAndSidebar">
+        <div className="chat__message">
           <Messages messages={conversation} currentUserId={currentUserId} />
           <ChatInput
             channel={channel}
@@ -118,7 +118,9 @@ function Chat() {
             sendMessage={sendMessage}
           />
         </div>
-        {serverId ? <ChatServerSidebar channel={channel} /> : <ChatMeSidebar />}
+        <div className="chat__sidebar">
+          {serverId ? <ChatServerSidebar /> : <ChatMeSidebar />}
+        </div>
       </div>
     </div>
   );

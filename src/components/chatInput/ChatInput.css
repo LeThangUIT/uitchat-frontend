@@ -19,7 +19,7 @@
   width: 100%;
 }
 
-.chat__input>.form {
+.chat__input > .form {
   flex: 1;
   margin-right: 40px;
 }

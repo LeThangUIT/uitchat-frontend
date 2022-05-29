@@ -2,7 +2,8 @@
   display: flex;
   background-color: #2F3136;
   flex-direction: column;
-  padding: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
 .chatMeSidebar > .chatMeSidebar__status {
@@ -10,6 +11,22 @@
   font-weight: 500;
 }
 
-.chatMeSidebar > .chatMeSidebar__notify {
+.chatMeSidebar > .chatMeSidebar__invites {
   padding: 1rem 0;
+  height: 80vh;
+  overflow: auto;
+}
+
+.card__container {
+  padding: 0 5px;
+}
+
+.chatMeSidebar > .chatMeSidebar__invites::-webkit-scrollbar {
+  width: 6px;
+  background-color: rgba(228, 220, 220, 0.132);
+}
+
+.chatMeSidebar > .chatMeSidebar__invites::-webkit-scrollbar-thumb {
+  background-color: rgb(11, 11, 11);
+  border-radius: 5px;
 }
