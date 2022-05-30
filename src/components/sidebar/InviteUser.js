@@ -18,19 +18,26 @@ import { useDispatch } from "react-redux";
 import { fetchAddMember } from "../../features/memberSlice";
 import { socketEmitEvent } from "../../features/socketSlice";
 import { useParams } from "react-router-dom";
+import { selectInfoServer } from "../../features/infoServerSlice";
 
 export default function InviteUser() {
   const [open, setOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [users, setUsers] = useState([]);
   const { serverId } = useParams();
+  const server = useSelector(selectInfoServer);
   let receiverIds = selectedOptions.map((receiver) => receiver._id);
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
     axios.get(`${API_URL}/users`, { headers: authHeader() }).then((res) => {
-       setUsers(res.data);
+      const userList = res.data.filter(
+        (user) =>
+          server.ownerIds.findIndex((owner) => owner._id === user._id) &&
+          server.memberIds.findIndex((member) => member._id === user._id)
+      );
+      setUsers(userList);
     });
   };
 
