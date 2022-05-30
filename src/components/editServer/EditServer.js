@@ -2,8 +2,8 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
-import UpdateServer from "./UpdateServer";
-import InviteUser from "./InviteUser";
+import UpdateServer from "../sidebar/UpdateServer";
+import InviteUser from "../sidebar/InviteUser";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { selectInfoServer } from "../../features/infoServerSlice";
 import { fetchDeleteServer } from "../../features/serverSlice";
-import DeleteMember from "./DeleteMember";
+import DeleteMember from "../sidebar/DeleteMember";
 import { socketEmitEvent } from "../../features/socketSlice";
 
 const StyledMenu = styled((props) => (

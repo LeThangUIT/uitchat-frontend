@@ -1,37 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, Outlet, Link, NavLink } from "react-router-dom";
-import EditServer from "./EditServer";
-import SidebarHome from "../conversations/SidebarHome";
-import SearchUser from "../conversations/SearchUser";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import React, { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CallIcon from "@mui/icons-material/Call";
 import { Avatar } from "@mui/material";
-import SidebarChannel from "./SidebarChannel";
 import MicIcon from "@mui/icons-material/Mic";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useDispatch, useSelector } from "react-redux";
-import { selectChannel } from "../../features/channelSlice";
-import {
-  selectInfoServer,
-  updateInfoServerFromSocket,
-} from "../../features/infoServerSlice";
+import { updateInfoServerFromSocket } from "../../features/infoServerSlice";
 import { fetchInfoServerData } from "../../features/infoServerSlice";
 import { fetchChannelData } from "../../features/channelSlice";
-
-import AddChannel from "../addChannel/AddChannel";
+import { selectSocket, socketAddListener } from "../../features/socketSlice";
+import ChannelSidebar from "../channelSidebar/ChannelSidebar";
+import ContactSidebar from "../contactSidebar/ContactSidebar";
 
 import "./Sidebar.css";
-import { selectSocket, socketAddListener } from "../../features/socketSlice";
 
 function Sidebar(props) {
   const { user: currentUser } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const channels = useSelector(selectChannel);
-  const infoServer = useSelector(selectInfoServer);
   const socket = useSelector(selectSocket);
   const serverId = props.serverId;
 
@@ -43,7 +32,6 @@ function Sidebar(props) {
   useEffect(() => {
     if (serverId) {
       dispatch(fetchInfoServerData(serverId));
-      dispatch(fetchChannelData(serverId));
     }
   }, [serverId]);
 
@@ -73,49 +61,11 @@ function Sidebar(props) {
 
   return (
     <div className="sidebar">
-      <div className="sidebar__top">
-        {serverId ? (
-          <>
-            <h4>{infoServer.name}</h4>
-            <EditServer />
-          </>
-        ) : (
-          <SearchUser />
-        )}
-      </div>
-      <div className="sidebar__channels">
-        {serverId && (
-          <div className="sidebar__channelsHeader">
-            <div className="sidebar__header">
-              <KeyboardArrowDownIcon />
-              <h5>Public channel</h5>
-            </div>
-            <AddChannel dataFromParent={currentUser} serverId={serverId} />
-          </div>
-        )}
-        <div className="sidebar__channelsList">
-          {serverId ? (
-            channels
-              .filter((channel) => channel.isPublic == true)
-              .map((channel) => (
-                <NavLink
-                  key={channel._id}
-                  to={channel._id}
-                  style={({ isActive }) => {
-                    return {
-                      textDecoration: "none",
-                      color: isActive ? "white" : "gray",
-                    };
-                  }}
-                >
-                  <SidebarChannel key={channel._id} dataFromParent={channel} />
-                </NavLink>
-              ))
-          ) : (
-            <SidebarHome />
-          )}
-        </div>
-      </div>
+      {serverId ? (
+        <ChannelSidebar currentUser={currentUser} />
+      ) : (
+        <ContactSidebar />
+      )}
       <div className="sidebar__voice">
         <SignalCellularAltIcon
           className="sidebar__voiceIcon"
@@ -134,7 +84,6 @@ function Sidebar(props) {
         <Avatar src={currentUser.avatar} />
         <div className="sidebar__profileInfo">
           <h5>{currentUser.name}</h5>
-          {/* <p>#{currentUser.access_token.substring(0, 5)}</p> */}
         </div>
         <div className="sidebar__profileIcons">
           <MicIcon className="sidebar__profileIcon" />

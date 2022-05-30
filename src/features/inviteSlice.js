@@ -36,7 +36,6 @@ const inviteSlice = createSlice({
       state.loading = HTTP_STATUS.PENDING;
     },
     [fetchInviteData.fulfilled](state, { payload }) {
-      console.log(payload);
       state.loading = HTTP_STATUS.FULFILLED;
       state.data = payload.inviteList;
     },

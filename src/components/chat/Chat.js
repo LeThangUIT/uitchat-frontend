@@ -15,6 +15,7 @@ import {
   selectConversation,
   selectInputMessages,
   addNewMessageFromSocket,
+  addInputMessage,
 } from "../../features/conversationSlice";
 import {
   socketAddListener,
@@ -24,6 +25,8 @@ import {
 import ChatMeSidebar from "../chatMeSidebar/ChatMeSidebar";
 
 import "./Chat.css";
+import { fetchContactData, selectContact } from "../../features/contactSlice";
+import { fetchInfoContactData } from "../../features/infoContactSlice";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -31,6 +34,7 @@ function Chat() {
   const { channelId, serverId } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const channel = useSelector(selectInfoChannel);
+  const contact = useSelector(selectContact);
   const conversation = useSelector(selectConversation);
   const inputMessages = useSelector(selectInputMessages);
   const oldInputMessage = inputMessages.find(
@@ -48,13 +52,21 @@ function Chat() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (channelId) {
+    if (channelId && serverId) {
       dispatch(fetchInfoChannelData(channelId, serverId));
       dispatch(fetchConversationData(channelId));
-    } else if (serverId) {
+    } else if (!channelId && serverId) {
       Promise.resolve(dispatch(fetchChannelData(serverId))).then((value) => {
         let firstChannelId = value.payload[0]._id;
         navigate(`${firstChannelId}`);
+      });
+    } else if (channelId && !serverId) {
+      dispatch(fetchInfoContactData(channelId));
+      dispatch(fetchConversationData(channelId));
+    } else if (!channelId & !serverId) {
+      Promise.resolve(dispatch(fetchContactData())).then((value) => {
+        let firstContactId = value.payload[0]._id;
+        navigate(`${firstContactId}`);
       });
     }
     setMessage(oldInputMessage ? oldInputMessage.message : "");
@@ -64,13 +76,22 @@ function Chat() {
 
   useEffect(() => {
     if (socket) {
-      const event = {
+      const joinChannelEvent = {
         name: "join-channel",
         data: {
           channelId,
         },
       };
-      dispatch(socketEmitEvent(event));
+      dispatch(socketEmitEvent(joinChannelEvent));
+      return () => {
+        const leaveChannelEvent = {
+          name: "leave-channel",
+          data: {
+            channelId,
+          },
+        };
+        dispatch(socketEmitEvent(leaveChannelEvent));
+      };
     }
   }, [channelId, socket]);
 
@@ -100,7 +121,7 @@ function Chat() {
         },
       };
       dispatch(socketEmitEvent(event));
-
+      dispatch(addInputMessage({ channelId, message: "" }));
       setMessage("");
     }
   };
@@ -112,8 +133,8 @@ function Chat() {
         <div className="chat__message">
           <Messages messages={conversation} currentUserId={currentUserId} />
           <ChatInput
-            channel={channel}
             message={message}
+            currentUserId={currentUserId}
             setMessage={setMessage}
             sendMessage={sendMessage}
           />

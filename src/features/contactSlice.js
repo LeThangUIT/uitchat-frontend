@@ -30,7 +30,7 @@ const contactSlice = createSlice({
     },
     [fetchContactData.fulfilled](state, { payload }) {
       state.loading = HTTP_STATUS.FULFILLED;
-      state.data = payload.results;
+      state.data = payload;
     },
     [fetchContactData.rejected](state) {
       state.loading = HTTP_STATUS.REJECTED;
@@ -39,5 +39,6 @@ const contactSlice = createSlice({
 });
 
 export const selectContact = (state) => state.contact.data;
+export const { addNewContactFromSocket } = contactSlice.actions;
 
 export default contactSlice.reducer;

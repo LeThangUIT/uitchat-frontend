@@ -14,8 +14,9 @@ const Message = ({ message, currentUserId }) => {
   const { channelId } = useParams();
   const [editing, setEditing] = useState(false);
   const [msg, setMsg] = useState(message.content);
+  const [showEditBtn, setShowEditBtn] = useState(false);
 
-  const own = currentUserId == message.userId._id;
+  const own = currentUserId === message.userId._id;
   const deleted = message.deleted;
 
   const editMessage = () => {
@@ -32,7 +33,11 @@ const Message = ({ message, currentUserId }) => {
   };
 
   return (
-    <div className={own ? "message own" : "message"}>
+    <div
+      className={own ? "message own" : "message"}
+      onMouseEnter={() => setShowEditBtn(true)}
+      onMouseLeave={() => setShowEditBtn(false)}
+    >
       <Avatar alt={message.userId.name} src={message.userId.avatar} />
 
       {deleted ? (
@@ -65,9 +70,10 @@ const Message = ({ message, currentUserId }) => {
           {message.createdAt !== message.updatedAt && (
             <div className="messageText__edit">(Edited)</div>
           )}
-          {own && (
+          {own && showEditBtn && (
             <EditMessage
-              own={own}
+              own={own.toString()}
+              setShowEditBtn={setShowEditBtn}
               messageId={message._id}
               setEditing={setEditing}
             />

@@ -18,11 +18,13 @@ const infoServerSlice = createSlice({
     loading: null,
     data: {},
   },
-  reducers: {updateInfoServerFromSocket: (state, action) => {
-        const updatedServer = action.payload;
-        state.data.name = updatedServer.name;
-        state.data.avatar = updatedServer.avatar;
-      },},
+  reducers: {
+    updateInfoServerFromSocket: (state, action) => {
+      const updatedServer = action.payload;
+      state.data.name = updatedServer.name;
+      state.data.avatar = updatedServer.avatar;
+    },
+  },
   extraReducers: {
     [fetchInfoServerData.pending](state) {
       state.loading = HTTP_STATUS.PENDING;

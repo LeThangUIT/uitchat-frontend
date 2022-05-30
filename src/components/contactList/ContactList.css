@@ -1,0 +1,12 @@
+.contact__container {
+  display: flex;
+  padding: 20px;
+}
+
+.contact__container.active {
+  background-color: rgba(146, 146, 146, 0.3);
+}
+
+.contact__info {
+  padding-left: 10px
+}

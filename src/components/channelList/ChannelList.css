@@ -1,9 +1,9 @@
 
-.sidebarChannel:hover > h5{
+.channelList:hover > h5{
     color: rgba(255, 255, 255, 0.8);
     background-color: #40464b;
 }
-.sidebarChannel > h5 {
+.channelList > h5 {
     display: flex;
     padding-left: 15px;
     align-items: center;
@@ -11,7 +11,7 @@
     color: gray; */
     cursor: pointer;
 }
-.sidebarChannel__hash {
+.channelList__hash {
     font-size: 28px;
     padding: 8px;
 }
