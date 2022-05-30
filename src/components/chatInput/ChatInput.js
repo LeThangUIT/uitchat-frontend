@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import GifBoxIcon from "@mui/icons-material/GifBox";
@@ -10,17 +10,24 @@ import Picker from "emoji-picker-react";
 import { addInputMessage } from "../../features/conversationSlice";
 
 import "./ChatInput.css";
+import { useParams } from "react-router-dom";
+import { selectInfoContact } from "../../features/infoContactSlice";
+import { selectInfoChannel } from "../../features/infoChannelSlice";
 
-export default function MessageInput({
-  channel,
+export default function ChatInput({
+  currentUserId,
   message,
   setMessage,
   sendMessage,
 }) {
+  const channel = useSelector(selectInfoChannel);
+  const contact = useSelector(selectInfoContact);
+  const { serverId, channelId } = useParams();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [chosenEmoji, setChosenEmoji] = useState(null);
+  const [username, setUsername] = useState("");
 
   const onEmojiClick = (event, emojiObject) => {
     setChosenEmoji(emojiObject);
@@ -39,11 +46,18 @@ export default function MessageInput({
       <div className="form">
         <input
           type="text"
-          placeholder={`Message #${channel.name}`}
+          placeholder={
+            serverId
+              ? `Message #${channel.name}`
+              : `Message @${
+                  Object.keys(contact).length &&
+                  contact.users.find((user) => user._id !== currentUserId).name
+                }`
+          }
           value={message}
           onChange={(e) => {
             let val = e.target.value;
-            dispatch(addInputMessage({ channelId: channel._id, message: val }));
+            dispatch(addInputMessage({ channelId, message: val }));
             setMessage(val);
           }}
           onKeyDown={(e) => (e.key === "Enter" ? sendMessage(e) : null)}

@@ -41,7 +41,7 @@ function ChatServerSidebar() {
           "ownerIds" in channel &&
           channel.ownerIds.map((owner) => (
             <li key={owner._id} className="chatServerSidebar__user user__on">
-              <Avatar />
+              <Avatar src={owner.avatar} />
               <h4>{owner.name}</h4>
             </li>
           ))}
@@ -52,7 +52,7 @@ function ChatServerSidebar() {
           "memberIds" in channel &&
           channel.memberIds.map((member) => (
             <li key={member._id} className="chatServerSidebar__user user__on">
-              <Avatar />
+              <Avatar src={member.avatar} />
               <h4>{member.name}</h4>
             </li>
           ))}

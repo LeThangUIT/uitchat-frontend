@@ -20,7 +20,7 @@ function App() {
             <Route index element={<Navigate to="servers/@me" />} />
             <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
-              <Route path=":guestId" element={<Chat />} />
+              <Route path=":channelId" element={<Chat />} />
             </Route>
             <Route path=":serverId" element={<ServerPlace />}>
               <Route index element={<Chat />} />

@@ -54,7 +54,12 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function EditMessage({ own, messageId, setEditing }) {
+export default function EditMessage({
+  own,
+  messageId,
+  setEditing,
+  setShowEditBtn,
+}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const { channelId } = useParams();
@@ -64,11 +69,13 @@ export default function EditMessage({ own, messageId, setEditing }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setShowEditBtn(false);
   };
 
   const handleEditMessage = () => {
     setEditing(true);
     setAnchorEl(null);
+    setShowEditBtn(false);
   };
 
   const handleDeleteMessage = () => {
@@ -81,6 +88,7 @@ export default function EditMessage({ own, messageId, setEditing }) {
     };
     dispatch(socketEmitEvent(event));
     setAnchorEl(null);
+    setShowEditBtn(false);
   };
 
   return (
@@ -93,7 +101,7 @@ export default function EditMessage({ own, messageId, setEditing }) {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreVertIcon sx={{ color: grey[500], marginTop: "4px" }} />
+        <MoreVertIcon sx={{ color: grey[500] }} />
       </IconButton>
       <StyledMenu
         id="customized-menu"
