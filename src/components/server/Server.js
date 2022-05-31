@@ -13,6 +13,7 @@ import { selectSocket, socketAddListener } from "../../features/socketSlice";
 import AddServer from "./AddServer";
 import "./Server.css";
 import { styled } from "@mui/material/styles";
+import { leaveServerFromSocket } from "../../features/memberSlice";
 
 const BootstrapTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
@@ -81,7 +82,12 @@ function Server() {
         callback:({serverId, userId}) => {
           console.log(userId, serverId)
           if(userId === currentUser.id) {
+            console.log("first")
             dispatch(deleteServerFromSocket(serverId));
+          }
+          else {
+            console.log("first")
+            dispatch(leaveServerFromSocket(userId))
           }
         }
       }

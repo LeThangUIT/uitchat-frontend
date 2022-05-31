@@ -43,7 +43,13 @@ export const fetchDeleteMember = createAsyncThunk(
       loading: null,
       data: [],
     },
-    reducers: {},
+    reducers: {
+      leaveServerFromSocket: (state, action) => {
+        state.data = current(state).data.filter(
+          (member) => member._id !== action.payload
+        );
+      },
+    },
     extraReducers: {
       [fetchMemberData.pending](state) {
         state.loading = HTTP_STATUS.PENDING;
@@ -70,7 +76,6 @@ export const fetchDeleteMember = createAsyncThunk(
         state.loading = HTTP_STATUS.PENDING;
       },
       [fetchDeleteMember.fulfilled](state, { payload }) {
-        console.log(payload)
         state.loading = HTTP_STATUS.FULFILLED;
         payload.member_ids.forEach((member_id) => {
           state.data = current(state).data.filter(
@@ -83,5 +88,8 @@ export const fetchDeleteMember = createAsyncThunk(
       },
     },
   });
+  export const {
+    leaveServerFromSocket,
+  } = memberSlice.actions
   export const selectMember = (state) => state.member.data;
   export default memberSlice.reducer;
