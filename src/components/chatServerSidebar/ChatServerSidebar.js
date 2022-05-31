@@ -10,26 +10,29 @@ import {
   fetchInfoChannelData,
   selectInfoChannel,
 } from "../../features/infoChannelSlice";
+import { selectInfoServer } from "../../features/infoServerSlice";
+import { fetchMemberData, selectMember } from "../../features/memberSlice";
 
 function ChatServerSidebar() {
   const socket = useSelector(selectSocket);
-  const { channelId, serverId } = useParams();
-  const channel = useSelector(selectInfoChannel);
+  const server = useSelector(selectInfoServer);
+  const members = useSelector(selectMember);
+  const { serverId } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchInfoChannelData(channelId, serverId));
-  }, []);
+    dispatch(fetchMemberData(serverId));
+  }, [serverId]);
 
   useEffect(() => {
     if (socket) {
-      const userJoinChannelEvent = {
-        name: "user-join-channel",
+      const userJoinServerEvent = {
+        name: "user-join-server",
         callback: (user) => {
           dispatch(addNewMemberFromSocket(user));
         },
       };
-      dispatch(socketAddListener(userJoinChannelEvent));
+      dispatch(socketAddListener(userJoinServerEvent));
     }
   }, [socket]);
 
@@ -37,9 +40,9 @@ function ChatServerSidebar() {
     <div className="chatServerSidebar">
       <h4 className="chatServerSidebar__status">Owners</h4>
       <div className="chatServerSidebar__users">
-        {channel &&
-          "ownerIds" in channel &&
-          channel.ownerIds.map((owner) => (
+        {server &&
+          "ownerIds" in server &&
+          server.ownerIds.map((owner) => (
             <li key={owner._id} className="chatServerSidebar__user user__on">
               <Avatar src={owner.avatar} />
               <h4>{owner.name}</h4>
@@ -48,14 +51,12 @@ function ChatServerSidebar() {
       </div>
       <h4 className="chatServerSidebar__status">Members</h4>
       <div className="chatServerSidebar__users">
-        {channel &&
-          "memberIds" in channel &&
-          channel.memberIds.map((member) => (
-            <li key={member._id} className="chatServerSidebar__user user__on">
-              <Avatar src={member.avatar} />
-              <h4>{member.name}</h4>
-            </li>
-          ))}
+        {members.map((member) => (
+          <li key={member._id} className="chatServerSidebar__user user__on">
+            <Avatar src={member.avatar} />
+            <h4>{member.name}</h4>
+          </li>
+        ))}
       </div>
     </div>
   );

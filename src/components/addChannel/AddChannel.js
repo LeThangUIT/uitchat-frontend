@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 export default function AddChannel({ serverId }) {
   const [name, setName] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [isPublic, setIsPublic] = React.useState(true);
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -28,11 +27,7 @@ export default function AddChannel({ serverId }) {
   const handleCreate = () => {
     handleClose();
     setName("");
-    dispatch(fetchAddNewChannel({ serverId, name, isPublic }));
-  };
-
-  const handleCheckPublic = (event) => {
-    setIsPublic(event.target.checked);
+    dispatch(fetchAddNewChannel({ serverId, name }));
   };
 
   return (
@@ -53,15 +48,6 @@ export default function AddChannel({ serverId }) {
             onChange={(e) => {
               setName(e.target.value);
             }}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isPublic}
-                onChange={(e) => handleCheckPublic(e)}
-              />
-            }
-            label="Public"
           />
         </DialogContent>
         <DialogActions>

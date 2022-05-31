@@ -23,7 +23,7 @@ export default function ChannelSidebar({ currentUser }) {
         <div className="sidebar__channelsHeader">
           <div className="sidebar__header">
             <KeyboardArrowDownIcon />
-            <h5>Public channel</h5>
+            <h5>Channels</h5>
           </div>
           <AddChannel dataFromParent={currentUser} serverId={infoServer._id} />
         </div>

@@ -53,9 +53,11 @@ function Chat() {
 
   useEffect(() => {
     if (channelId && serverId) {
-      dispatch(fetchInfoChannelData(channelId, serverId));
+      console.log(1);
+      dispatch(fetchChannelData(serverId));
       dispatch(fetchConversationData(channelId));
     } else if (!channelId && serverId) {
+      console.log(2);
       Promise.resolve(dispatch(fetchChannelData(serverId))).then((value) => {
         let firstChannelId = value.payload[0]._id;
         navigate(`${firstChannelId}`);
