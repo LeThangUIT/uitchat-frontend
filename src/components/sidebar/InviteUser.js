@@ -64,6 +64,7 @@ export default function InviteUser() {
   };
 
   const handleChange = (event, value) => {
+    console.log(users)
     setSelectedOptions(value);
   };
 
@@ -93,7 +94,7 @@ export default function InviteUser() {
                 <TextField
                   {...params}
                   label="selected user"
-                  placeholder="Typing email or name"
+                  placeholder="Typing email"
                 />
               )}
             />

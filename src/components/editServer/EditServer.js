@@ -100,6 +100,23 @@ export default function EditServer() {
     }
     handleClose();    
   };
+  const handleLeaveServer = () => {
+    if (window.confirm("Are you sure you want to leave this server?")) 
+    { 
+      navigate("/servers/@me");
+      const leaveServer = {
+        name: "leave-server",
+        data: {
+          serverId: infoServer._id,
+        },
+      };
+      dispatch(socketEmitEvent(leaveServer));
+    } 
+    else {
+      console.log("Không rời");
+    }
+    handleClose();    
+  };
   return (
     <div>
       <KeyboardArrowDownIcon
@@ -141,8 +158,10 @@ export default function EditServer() {
             </MenuItem>
           </div>
         ) : (
-          <MenuItem onClick={handleClose} disableRipple>
-            <LogoutIcon />
+          <MenuItem  onClick={() => {
+            handleLeaveServer();
+            }} disableRipple>
+              <LogoutIcon />
             Leave Server
           </MenuItem>
         )}

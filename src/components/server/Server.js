@@ -68,13 +68,24 @@ function Server() {
       };
       dispatch(socketAddListener(acceptedInvite));
 
-      const deleteServer = {
+      const deletedServer = {
         name: "deleted-server",
         callback: (serverId) => {
           dispatch(deleteServerFromSocket(serverId));
         },
       };
-      dispatch(socketAddListener(deleteServer));
+      dispatch(socketAddListener(deletedServer));
+
+      const leftServer = {
+        name: "left-server",
+        callback:({serverId, userId}) => {
+          console.log(userId, serverId)
+          if(userId === currentUser.id) {
+            dispatch(deleteServerFromSocket(serverId));
+          }
+        }
+      }
+      dispatch(socketAddListener(leftServer));
     }
   }, [socket]);
 
