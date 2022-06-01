@@ -14,6 +14,7 @@ import {
   selectSocket,
   socketAddListener,
   socketEmitEvent,
+  socketRemoveListener,
 } from "../../features/socketSlice";
 
 import "./ChatMeSidebar.css";
@@ -44,6 +45,10 @@ export default function ChatMeSidebar() {
         },
       };
       dispatch(socketAddListener(removeInviteEvent));
+      return () => {
+        dispatch(socketRemoveListener("send-invite"))
+        dispatch(socketRemoveListener("remove-invite"))
+      }
     }
   }, [socket]);
 

@@ -21,6 +21,7 @@ import {
   socketAddListener,
   socketEmitEvent,
   selectSocket,
+  socketRemoveListener,
 } from "../../features/socketSlice";
 import ChatMeSidebar from "../chatMeSidebar/ChatMeSidebar";
 
@@ -53,11 +54,9 @@ function Chat() {
 
   useEffect(() => {
     if (channelId && serverId) {
-      console.log(1);
       dispatch(fetchChannelData(serverId));
       dispatch(fetchConversationData(channelId));
     } else if (!channelId && serverId) {
-      console.log(2);
       Promise.resolve(dispatch(fetchChannelData(serverId))).then((value) => {
         let firstChannelId = value.payload[0]._id;
         navigate(`${firstChannelId}`);
@@ -106,6 +105,9 @@ function Chat() {
         },
       };
       dispatch(socketAddListener(receiveMessageEvent));
+      return () => {
+        dispatch(socketRemoveListener("receive-message"));
+      }
     }
   }, [socket]);
 

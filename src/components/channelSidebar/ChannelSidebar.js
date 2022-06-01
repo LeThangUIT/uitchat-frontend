@@ -42,7 +42,7 @@ export default function ChannelSidebar({ currentUser }) {
                   };
                 }}
               >
-                <ChannelList dataFromParent={channel} />
+                <ChannelList channel={channel} />
               </NavLink>
             ))}
         </div>

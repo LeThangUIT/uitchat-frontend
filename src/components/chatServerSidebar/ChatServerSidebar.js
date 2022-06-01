@@ -3,15 +3,10 @@ import { Avatar } from "@mui/material";
 
 import "./ChatServerSidebar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSocket, socketAddListener } from "../../features/socketSlice";
+import { selectSocket, socketAddListener, socketRemoveListener } from "../../features/socketSlice";
 import { useParams } from "react-router-dom";
-import {
-  addNewMemberFromSocket,
-  fetchInfoChannelData,
-  selectInfoChannel,
-} from "../../features/infoChannelSlice";
 import { selectInfoServer } from "../../features/infoServerSlice";
-import { fetchMemberData, selectMember } from "../../features/memberSlice";
+import { fetchMemberData, selectMember, addNewMemberFromSocket } from "../../features/memberSlice";
 
 function ChatServerSidebar() {
   const socket = useSelector(selectSocket);
@@ -33,6 +28,10 @@ function ChatServerSidebar() {
         },
       };
       dispatch(socketAddListener(userJoinServerEvent));
+      return () => {
+        dispatch(socketRemoveListener("send-invite"));
+        dispatch(socketRemoveListener("remove-invite"));
+      };
     }
   }, [socket]);
 
