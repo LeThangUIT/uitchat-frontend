@@ -12,6 +12,11 @@
 .header .logo .discord_icon {
   font-size: 35px;
 }
+.header .logo_img {
+  width: 80px;
+  height: 80px;
+  background-size: cover;
+}
 .header .logo1 {
   display: flex;
   align-items: center;
@@ -21,16 +26,17 @@
   font-weight: 500;
   text-decoration: none;
 }
-
 .header .nav {
   gap: 40px;
   display: flex;
+  align-items: center;
 }
 .header .nav a {
   color: inherit;
   cursor: pointer;
   text-decoration: none;
   font-weight: 500;
+  font-size: 16px;
 }
 .header .nav a:hover {
   text-decoration: underline;
