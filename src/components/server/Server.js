@@ -83,12 +83,12 @@ function Server() {
           console.log(userId, serverId)
           if(userId === currentUser.id) {
             dispatch(deleteServerFromSocket(serverId));
+          } else {
+            console.log("first");
+            dispatch(leaveServerFromSocket(userId));
           }
-          else {
-            dispatch(leaveServerFromSocket(userId))
-          }
-        }
-      }
+        },
+      };
       dispatch(socketAddListener(leftServer));
     }
   }, [socket]);
@@ -103,8 +103,8 @@ function Server() {
                 navigate("/servers/@me");
               }}
               sx={{ width: "50px", height: "50px" }}
-              className="server__avt"
-              src="https://pngset.com/images/discord-icon-background-discord-logo-sphere-graphics-art-moon-transparent-png-792846.png"
+              className="server__logo"
+              src="https://i.imgur.com/17s9LBz.png"
             />
           </div>
           <div className="server__servers">
