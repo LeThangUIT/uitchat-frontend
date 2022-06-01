@@ -1,5 +1,11 @@
 
-.channelList:hover > h5{
+.channelList {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 5px;
+}
+
+.channelList:hover{
     color: rgba(255, 255, 255, 0.8);
     background-color: #40464b;
 }

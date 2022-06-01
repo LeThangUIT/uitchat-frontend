@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { API_URL, HTTP_STATUS } from "../app/constant";
 import authHeader from "../services/auth-header";
 import axios from "axios";
@@ -28,7 +28,14 @@ const channelSlice = createSlice({
     loading: null,
     data: [],
   },
-  reducers: {},
+  reducers: {
+    deleteChannelFromSocket: (state, action) => {
+      console.log(action.payload)
+      state.data = current(state).data.filter(
+        (channel) => channel._id !== action.payload
+      );
+    }
+  },
   extraReducers: {
     [fetchChannelData.pending](state) {
       state.loading = HTTP_STATUS.PENDING;
@@ -48,4 +55,7 @@ const channelSlice = createSlice({
   },
 });
 export const selectChannel = (state) => state.channel.data;
+export const {
+  deleteChannelFromSocket,
+} = channelSlice.actions;
 export default channelSlice.reducer;

@@ -6,20 +6,23 @@ import { async } from "@firebase/util";
 
 export const fetchMemberData = createAsyncThunk(
   "member/fetchMemberData",
-    async(serverId) => {
-      const { data } = await axios.get(`${API_URL}/users/me/servers/${serverId}/members` , {headers: authHeader()})
-      return data;
+  async (serverId) => {
+    const { data } = await axios.get(
+      `${API_URL}/users/me/servers/${serverId}/members`,
+      { headers: authHeader() }
+    );
+    return data;
   }
-)
+);
 export const fetchAddMember = createAsyncThunk(
-    "member/fetchAddMember",
-    async (members) => {
-      const { data } = await axios.post(`${API_URL}/servers/members`,members, {
-        headers: authHeader(),
-      });
-      return data;
-    }
-  );
+  "member/fetchAddMember",
+  async (members) => {
+    const { data } = await axios.post(`${API_URL}/servers/members`, members, {
+      headers: authHeader(),
+    });
+    return data;
+  }
+);
 export const fetchDeleteMember = createAsyncThunk(
   "member/fetchDeleteMember",
   (members) => {
@@ -34,62 +37,65 @@ export const fetchDeleteMember = createAsyncThunk(
       .catch(function (error) {
         console.log(error.message);
       });
-    return members
+    return members;
   }
 );
-  const memberSlice = createSlice({
-    name: "member",
-    initialState: {
-      loading: null,
-      data: [],
+const memberSlice = createSlice({
+  name: "member",
+  initialState: {
+    loading: null,
+    data: [],
+  },
+  reducers: {
+    addNewMemberFromSocket: (state, action) => {
+      const member = action.payload;
+      state.data.push(member);
     },
-    reducers: {
-      leaveServerFromSocket: (state, action) => {
+
+    leaveServerFromSocket: (state, action) => {
+      state.data = current(state).data.filter(
+        (member) => member._id !== action.payload
+      );
+    },
+  },
+  extraReducers: {
+    [fetchMemberData.pending](state) {
+      state.loading = HTTP_STATUS.PENDING;
+    },
+    [fetchMemberData.fulfilled](state, { payload }) {
+      state.loading = HTTP_STATUS.FULFILLED;
+      state.data = payload;
+    },
+    [fetchMemberData.rejected](state) {
+      state.loading = HTTP_STATUS.REJECTED;
+    },
+    [fetchAddMember.pending](state) {
+      state.loading = HTTP_STATUS.PENDING;
+    },
+    [fetchAddMember.fulfilled](state, { payload }) {
+      console.log(payload);
+      state.loading = HTTP_STATUS.FULFILLED;
+      state.data.push(payload);
+    },
+    [fetchAddMember.rejected](state) {
+      state.loading = HTTP_STATUS.REJECTED;
+    },
+    [fetchDeleteMember.pending](state) {
+      state.loading = HTTP_STATUS.PENDING;
+    },
+    [fetchDeleteMember.fulfilled](state, { payload }) {
+      state.loading = HTTP_STATUS.FULFILLED;
+      payload.member_ids.forEach((member_id) => {
         state.data = current(state).data.filter(
-          (member) => member._id !== action.payload
+          (member) => member._id !== member_id
         );
-      },
+      });
     },
-    extraReducers: {
-      [fetchMemberData.pending](state) {
-        state.loading = HTTP_STATUS.PENDING;
-      },
-      [fetchMemberData.fulfilled](state, { payload }) {
-        state.loading = HTTP_STATUS.FULFILLED;
-        state.data = payload;
-      },
-      [fetchMemberData.rejected](state) {
-        state.loading = HTTP_STATUS.REJECTED;
-      },
-      [fetchAddMember.pending](state) {
-        state.loading = HTTP_STATUS.PENDING;
-      },
-      [fetchAddMember.fulfilled](state, { payload }) {
-        console.log(payload)
-        state.loading = HTTP_STATUS.FULFILLED;
-        state.data.push(payload);
-      },
-      [fetchAddMember.rejected](state) {
-        state.loading = HTTP_STATUS.REJECTED;
-      },
-      [fetchDeleteMember.pending](state) {
-        state.loading = HTTP_STATUS.PENDING;
-      },
-      [fetchDeleteMember.fulfilled](state, { payload }) {
-        state.loading = HTTP_STATUS.FULFILLED;
-        payload.member_ids.forEach((member_id) => {
-          state.data = current(state).data.filter(
-            (member) => member._id !==member_id
-          );
-          })
-      },
-      [fetchDeleteMember.rejected](state) {
-        state.loading = HTTP_STATUS.REJECTED;
-      },
+    [fetchDeleteMember.rejected](state) {
+      state.loading = HTTP_STATUS.REJECTED;
     },
-  });
-  export const {
-    leaveServerFromSocket,
-  } = memberSlice.actions
-  export const selectMember = (state) => state.member.data;
-  export default memberSlice.reducer;
+  },
+});
+export const { leaveServerFromSocket, addNewMemberFromSocket } = memberSlice.actions;
+export const selectMember = (state) => state.member.data;
+export default memberSlice.reducer;

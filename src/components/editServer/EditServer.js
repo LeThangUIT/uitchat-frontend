@@ -95,9 +95,6 @@ export default function EditServer() {
       };
       dispatch(socketEmitEvent(deleteServer));
     } 
-    else {
-      console.log("Không xóa");
-    }
     handleClose();    
   };
   const handleLeaveServer = () => {
@@ -112,9 +109,6 @@ export default function EditServer() {
       };
       dispatch(socketEmitEvent(leaveServer));
     } 
-    else {
-      console.log("Không rời");
-    }
     handleClose();    
   };
   return (

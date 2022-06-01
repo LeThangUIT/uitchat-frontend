@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="servers" element={<Server />}>
-            <Route index element={<Navigate to="servers/@me" />} />
+            <Route index element={<Navigate to="@me" />} />
             <Route path="@me" element={<ServerPlace />}>
               <Route index element={<Chat />} />
               <Route path=":channelId" element={<Chat />} />
