@@ -1,5 +1,4 @@
 import { FiMenu } from "react-icons/fi";
-import { FaDiscord } from "react-icons/fa";
 import "./Header.css";
 
 function Header() {
@@ -7,7 +6,7 @@ function Header() {
     <div className="header">
       <div className="logo">
         <a href="/" className="logo1">
-          <FaDiscord className="discord_icon" />
+          <div className="logo_img"></div>
           UITChat
         </a>
       </div>
