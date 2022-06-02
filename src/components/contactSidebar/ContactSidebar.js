@@ -6,7 +6,7 @@ import {
   selectContact,
 } from "../../features/contactSlice";
 import { selectSocket, socketAddListener } from "../../features/socketSlice";
-import ContactList from "../contactList/ContactList";
+import ContactInfo from "../contactInfo/ContactInfo";
 import SearchContact from "../searchContact/SearchContact";
 
 export default function ContactSidebar() {
@@ -51,7 +51,7 @@ export default function ContactSidebar() {
               }}
             >
               {({ isActive }) => (
-                <ContactList isActive={isActive} contact={contact} />
+                <ContactInfo isActive={isActive} contact={contact} />
               )}
             </NavLink>
           ))}

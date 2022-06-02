@@ -45,7 +45,9 @@ const Message = ({ message, currentUserId }) => {
           title={moment(message.updatedAt).calendar()}
           placement="bottom"
         >
-          <div className="messageText">'Message was deleted'</div>
+          <div className="messageText deleted">
+            <i>Message was deleted</i>
+          </div>
         </Tooltip>
       ) : (
         <>
@@ -53,19 +55,18 @@ const Message = ({ message, currentUserId }) => {
             title={moment(message.updatedAt).calendar()}
             placement="bottom"
           >
-            <div className="messageText">
-              {editing ? (
-                <input
-                  type="text"
-                  style={{ border: 0 }}
-                  value={msg}
-                  onChange={(e) => setMsg(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && editMessage()}
-                />
-              ) : (
-                message.content
-              )}
-            </div>
+            {editing ? (
+              <input
+                type="text"
+                className="messageText editing"
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && editMessage()}
+                autoFocus={editing}
+              />
+            ) : (
+              <div className="messageText">{message.content}</div>
+            )}
           </Tooltip>
           {message.createdAt !== message.updatedAt && (
             <div className="messageText__edit">(Edited)</div>
