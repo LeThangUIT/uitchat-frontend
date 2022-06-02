@@ -48,7 +48,8 @@
   font-size: 30px;
 }
 .header .login .button_login {
-  background-color: white;
+  background-color: rgb(0, 63, 164);
+  color: white;
   padding: 10px 16px;
   border-radius: 50px;
   font-size: 13px;
@@ -60,6 +61,24 @@
   text-decoration: none;
 }
 .header .login .button_login:hover {
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.header .login .button_register {
+  background-color: white;
+  padding: 10px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition-duration: 200ms;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+.header .login .button_register:hover {
   box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.3);
   color: rgba(114, 137, 218);
 }

@@ -20,7 +20,10 @@ function Header() {
       </div>
       <div className="login">
         <a href="/login" className="button_login">
-          Open UITChat
+          Login
+        </a>
+        <a href="/register" className="button_register">
+          Register
         </a>
         <FiMenu className="menu" />
       </div>

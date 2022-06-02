@@ -29,6 +29,7 @@ function Sidebar(props) {
       navigate("/login");
     }
   }, [currentUser]);
+
   useEffect(() => {
     if (serverId) {
       dispatch(fetchInfoServerData(serverId));
