@@ -27,12 +27,14 @@ function LandingPage() {
               <h2 className="slogan_detail">
                 Whether you’re part of a school club, gaming group, worldwide
                 art community, or just a handful of friends that want to spend
-                time together, Discord makes it easy to talk every day and hang
+                time together, UITChat makes it easy to talk every day and hang
                 out more often.
               </h2>
               <div className="button">
                 <button className="open_discord">
-                  Open Discord in your browser
+                  <a href="/login" style={{ textDecoration: "none" }}>
+                    Open UITChat in your browser
+                  </a>
                 </button>
               </div>
             </div>

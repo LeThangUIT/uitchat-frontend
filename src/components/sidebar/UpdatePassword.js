@@ -69,14 +69,20 @@ function UpdatePassword() {
   };
   return (
     <div>
-      <Button className="profile__button" onClick={() => {
+      <Button
+        className="profile__button"
+        onClick={() => {
           handleClickOpen();
-        }} variant="contained">
-                Change password
+        }}
+        variant="contained"
+      >
+        Change password
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Change your password</DialogTitle>
-        <DialogContent>
+        <DialogTitle sx={{ backgroundColor: "#44484b" }}>
+          <span style={{ color: "white" }}>Change your password</span>
+        </DialogTitle>
+        <DialogContent sx={{ backgroundColor: "#44484b" }}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -85,7 +91,11 @@ function UpdatePassword() {
             <Form>
               <div className="form-group">
                 <label htmlFor="newPassword">New password</label>
-                <Field name="newPassword" type="password" className="form-control" />
+                <Field
+                  name="newPassword"
+                  type="password"
+                  className="form-control"
+                />
                 <ErrorMessage
                   name="password"
                   component="div"
@@ -94,7 +104,11 @@ function UpdatePassword() {
               </div>
               <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm password</label>
-                <Field name="confirmPassword" type="password" className="form-control" />
+                <Field
+                  name="confirmPassword"
+                  type="password"
+                  className="form-control"
+                />
                 <ErrorMessage
                   name="confirmPassword"
                   component="div"
@@ -127,7 +141,7 @@ function UpdatePassword() {
                   {loading && (
                     <span className="spinner-border spinner-border-sm"></span>
                   )}
-                  Done
+                  Save
                 </Button>
               </DialogActions>
             </Form>

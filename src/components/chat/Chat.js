@@ -54,6 +54,7 @@ function Chat() {
 
   useEffect(() => {
     if (channelId && serverId) {
+      dispatch(fetchInfoChannelData(channelId, serverId));
       dispatch(fetchChannelData(serverId));
       dispatch(fetchConversationData(channelId));
     } else if (!channelId && serverId) {
@@ -107,7 +108,7 @@ function Chat() {
       dispatch(socketAddListener(receiveMessageEvent));
       return () => {
         dispatch(socketRemoveListener("receive-message"));
-      }
+      };
     }
   }, [socket]);
 

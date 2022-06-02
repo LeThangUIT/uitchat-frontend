@@ -64,8 +64,10 @@ function UpdateEmail() {
         Edit
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Change your email</DialogTitle>
-        <DialogContent>
+        <DialogTitle sx={{backgroundColor: '#44484b'}}>
+          <span style={{color: 'white'}}>Change your email</span>
+        </DialogTitle>
+        <DialogContent sx={{backgroundColor: '#44484b'}}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -107,7 +109,7 @@ function UpdateEmail() {
                   {loading && (
                     <span className="spinner-border spinner-border-sm"></span>
                   )}
-                  Done
+                  Save
                 </Button>
               </DialogActions>
             </Form>
