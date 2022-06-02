@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button, IconButton, Input } from "@mui/material";
@@ -11,6 +11,7 @@ import { fetchUpdateUser, logout } from "../../features/authSlice";
 import UpdateEmail from "../sidebar/UpdateEmail";
 import UpdateName from "../sidebar/UpdateName";
 import UpdatePassword from "../sidebar/UpdatePassword";
+import { socketEmitEvent } from "../../features/socketSlice";
 const Profile = () => {
   const dispatch = useDispatch();
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -39,6 +40,11 @@ const Profile = () => {
      setImage(e.target.files[0]);
     }
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(socketEmitEvent("logout"));
+  }
   return (
     <div className="profile">
       <ArrowBackIosNewIcon onClick={() => navigate(-1)}className="profile__header profile__backIcon"/>
@@ -86,7 +92,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <Button onClick={() => {dispatch(logout())}} className="profile__button" sx={{ mt: 8 }} color="error" variant="contained">
+      <Button onClick={handleLogout} className="profile__button" sx={{ mt: 8 }} color="error" variant="contained">
         Logout
       </Button>
     </div>
