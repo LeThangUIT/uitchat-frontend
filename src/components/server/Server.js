@@ -84,7 +84,6 @@ function Server() {
           if(userId === currentUser.id) {
             dispatch(deleteServerFromSocket(serverId));
           } else {
-            console.log("first");
             dispatch(leaveServerFromSocket(userId));
           }
         },

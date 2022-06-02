@@ -8,14 +8,17 @@ import { socketEmitEvent } from "../../features/socketSlice";
 
 import "./ChannelList.css";
 import { selectInfoServer } from "../../features/infoServerSlice";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 
 function ChannelList({ channel }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const { user: currentUser } = useSelector((state) => state.auth);
   const server = useSelector(selectInfoServer);
   const dispatch = useDispatch();
+  const [openEdit, setOpenEdit] = React.useState(false);
   const open = Boolean(anchorEl);
   var isOwner = false;
+  const [name, setName] = React.useState(channel.name)
 
   if ("ownerIds" in server) {
     server.ownerIds.forEach((owner) => {
@@ -35,7 +38,17 @@ function ChannelList({ channel }) {
 
   const handleEdit = () => {
     handleClose();
+    setOpenEdit(true)
   };
+
+  const onChangeName = (e) => {
+    const name = e.target.value;
+    setName(name);
+  }; 
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false)
+  }
 
   const handleDelete = () => {
     if (window.confirm("Are you sure to delete this channel?")) {
@@ -50,6 +63,18 @@ function ChannelList({ channel }) {
     handleClose();
   };
 
+  const handleSave = () => {
+    handleCloseEdit()
+    const event = {
+      name: "changeName-channel",
+      data: {
+        channelId: channel._id,
+        channelName: name,
+        serverId: channel.serverId
+      },
+    };
+    dispatch(socketEmitEvent(event));
+  }
   return (
     <div className="channelList">
       <h5>
@@ -87,6 +112,23 @@ function ChannelList({ channel }) {
             <MenuItem onClick={handleEdit}>edit</MenuItem>
             <MenuItem onClick={handleDelete}>delete</MenuItem>
           </Menu>
+
+          <Dialog open={openEdit} onClose={handleCloseEdit}>
+            <DialogTitle>Change channel's name</DialogTitle>
+            <DialogContent>
+              <TextField
+                  required
+                  id="outlined-required"
+                  label="Required"
+                  value= {name}
+                  onChange={onChangeName}
+                />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleSave}>Save</Button>
+            </DialogActions>
+          </Dialog>
         </>
       )}
     </div>

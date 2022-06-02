@@ -36,7 +36,17 @@ const channelSlice = createSlice({
     },
     addChannelFromSocket: (state, action) => {
       state.data.push(action.payload);
+    },
+
+    editChannelFromSocket: (state, action) => {
+      const updatedChannel = action.payload;
+      state.data.map((channel) => {
+        if (channel._id === updatedChannel.channelId) {
+          channel.name = updatedChannel.channelName;
+        }
+      });
     }
+
   },
   extraReducers: {
     [fetchChannelData.pending](state) {
@@ -60,5 +70,6 @@ export const selectChannel = (state) => state.channel.data;
 export const {
   deleteChannelFromSocket,
   addChannelFromSocket,
+  editChannelFromSocket,
 } = channelSlice.actions;
 export default channelSlice.reducer;
