@@ -137,10 +137,6 @@ export default function EditServer() {
           <div>
             <DeleteMember/>
             <UpdateServer onClick={handleClose}/>
-            <MenuItem onClick={handleClose} disableRipple>
-              <AddIcon />
-              Create Channel
-            </MenuItem>
             <MenuItem
               onClick={() => {
                 handleDeleteServer();
