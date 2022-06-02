@@ -35,7 +35,6 @@ function Chat() {
   const { channelId, serverId } = useParams();
   const { user: currentUser } = useSelector((state) => state.auth);
   const channel = useSelector(selectInfoChannel);
-  const contact = useSelector(selectContact);
   const conversation = useSelector(selectConversation);
   const inputMessages = useSelector(selectInputMessages);
   const oldInputMessage = inputMessages.find(
