@@ -45,8 +45,7 @@ const channelSlice = createSlice({
           channel.name = updatedChannel.channelName;
         }
       });
-    }
-
+    },
   },
   extraReducers: {
     [fetchChannelData.pending](state) {

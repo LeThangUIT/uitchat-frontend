@@ -47,7 +47,7 @@ function ServerPlace() {
     if (socket) {
       const deletedChannelEvent = {
         name: "deleted-channel",
-        callback: (channelId) => {
+        callback: ({channelId, serverId}) => {
           dispatch(deleteChannelFromSocket(channelId));
           navigate(`/servers/${serverId}`);
         },
@@ -72,6 +72,7 @@ function ServerPlace() {
 
       return () => {
         dispatch(socketRemoveListener("added-channel"));
+        dispatch(socketRemoveListener("deleted-channel"));
       };
     }
   }, [socket]);

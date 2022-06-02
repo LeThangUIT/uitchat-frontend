@@ -38,7 +38,6 @@ export default function ChannelSidebar({ currentUser }) {
 
         <div className="sidebar__channelsList">
           {channels
-            .filter((channel) => channel.isPublic == true)
             .map((channel) => (
               <NavLink
                 key={channel._id}
