@@ -30,10 +30,12 @@ const channelSlice = createSlice({
   },
   reducers: {
     deleteChannelFromSocket: (state, action) => {
-      console.log(action.payload)
       state.data = current(state).data.filter(
         (channel) => channel._id !== action.payload
       );
+    },
+    addChannelFromSocket: (state, action) => {
+      state.data.push(action.payload);
     }
   },
   extraReducers: {
@@ -57,5 +59,6 @@ const channelSlice = createSlice({
 export const selectChannel = (state) => state.channel.data;
 export const {
   deleteChannelFromSocket,
+  addChannelFromSocket,
 } = channelSlice.actions;
 export default channelSlice.reducer;
