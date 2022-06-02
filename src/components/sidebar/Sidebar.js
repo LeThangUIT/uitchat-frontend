@@ -10,7 +10,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInfoServerFromSocket } from "../../features/infoServerSlice";
 import { fetchInfoServerData } from "../../features/infoServerSlice";
-import { fetchChannelData } from "../../features/channelSlice";
 import { selectSocket, socketAddListener } from "../../features/socketSlice";
 import ChannelSidebar from "../channelSidebar/ChannelSidebar";
 import ContactSidebar from "../contactSidebar/ContactSidebar";
