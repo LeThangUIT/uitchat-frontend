@@ -53,7 +53,6 @@ const authSlice = createSlice({
   initialState,
   extraReducers: {
     [register.fulfilled]: (state, action) => {
-      state = {};
       state.isLoggedIn = true;
       state.user = action.payload.user.user;
     },
@@ -61,8 +60,6 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
     },
     [login.fulfilled]: (state, action) => {
-      console.log(action.payload.user);
-      state = {};
       state.isLoggedIn = true;
       state.user = action.payload.user.user;
     },
@@ -73,6 +70,7 @@ const authSlice = createSlice({
     [logout.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
       state.user = null;
+      state = undefined;
     },
     [fetchUpdateUser.fulfilled]: (state, action) => {
       state.user = action.payload.userInfo
