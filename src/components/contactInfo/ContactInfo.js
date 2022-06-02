@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
 
-import "./ContactList.css";
+import "./ContactInfo.css";
 
 export default function ContactList({ contact, isActive }) {
   const { user: currentUser } = useSelector((state) => state.auth);

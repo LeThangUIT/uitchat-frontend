@@ -26,6 +26,7 @@
     color: white;
     cursor: pointer;
     max-width: 400px;
+    word-wrap: break-word;
 }
 
 .messageText__edit {
@@ -43,5 +44,10 @@
 .message.own .messageText{
     background-color: rgb(245, 241, 241);
     color: black;
+}
+
+.message .messageText.deleted {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid black;
 }
 

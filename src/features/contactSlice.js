@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { API_URL, HTTP_STATUS } from "../app/constant";
 import authHeader from "../services/auth-header";
 import axios from "axios";
@@ -23,6 +23,12 @@ const contactSlice = createSlice({
     addNewContactFromSocket: (state, action) => {
       state.data.push(action.payload);
     },
+
+    hideContact: (state, action) => {
+      state.data = current(state).data.filter(
+        (contact) => contact._id !== action.payload
+      );
+    }
   },
   extraReducers: {
     [fetchContactData.pending](state) {
@@ -39,6 +45,6 @@ const contactSlice = createSlice({
 });
 
 export const selectContact = (state) => state.contact.data;
-export const { addNewContactFromSocket } = contactSlice.actions;
+export const { addNewContactFromSocket, hideContact } = contactSlice.actions;
 
 export default contactSlice.reducer;

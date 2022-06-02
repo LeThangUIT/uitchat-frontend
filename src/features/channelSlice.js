@@ -30,7 +30,6 @@ const channelSlice = createSlice({
   },
   reducers: {
     deleteChannelFromSocket: (state, action) => {
-      console.log(action.payload)
       state.data = current(state).data.filter(
         (channel) => channel._id !== action.payload
       );
