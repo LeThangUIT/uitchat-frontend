@@ -12,6 +12,9 @@ import ChannelList from "../channelList/ChannelList";
 export default function ChannelSidebar({ currentUser }) {
   const infoServer = useSelector(selectInfoServer);
   const channels = useSelector(selectChannel);
+  let isOwner =
+    infoServer.ownerIds &&
+    infoServer.ownerIds.find((owner) => owner._id === currentUser.id);
 
   return (
     <>
@@ -22,10 +25,14 @@ export default function ChannelSidebar({ currentUser }) {
       <div className="sidebar__channels">
         <div className="sidebar__channelsHeader">
           <div className="sidebar__header">
-            <KeyboardArrowDownIcon />
-            <h5>Channels</h5>
+            <h3>Channels</h3>
           </div>
-          <AddChannel dataFromParent={currentUser} serverId={infoServer._id} />
+          {isOwner && (
+            <AddChannel
+              dataFromParent={currentUser}
+              serverId={infoServer._id}
+            />
+          )}
         </div>
 
         <div className="sidebar__channelsList">
