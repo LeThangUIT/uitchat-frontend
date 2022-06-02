@@ -19,6 +19,7 @@ import {
   FormGroup,
   FormLabel,
 } from "@mui/material";
+import { socketEmitEvent } from "../../features/socketSlice";
 
 function DeleteMember() {
   const members = useSelector(selectMember);
@@ -44,9 +45,17 @@ function DeleteMember() {
   };
   const handleDelete = () => {
     setOpen(false);
-    dispatch(
-      fetchDeleteMember({ server_id: infoServer._id, member_ids: member_ids })
-    );
+    // dispatch(
+    //   fetchDeleteMember({ server_id: infoServer._id, member_ids: member_ids })
+    // );
+    const deleteMember = {
+      name: "delete-member",
+      data: {
+        serverId: infoServer._id,
+        memberIds: member_ids
+      },
+    };
+    dispatch(socketEmitEvent(deleteMember));
     setMember_ids([]);
   };
   return (

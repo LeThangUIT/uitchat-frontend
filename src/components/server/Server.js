@@ -13,7 +13,7 @@ import { selectSocket, socketAddListener } from "../../features/socketSlice";
 import AddServer from "./AddServer";
 import "./Server.css";
 import { styled } from "@mui/material/styles";
-import { leaveServerFromSocket } from "../../features/memberSlice";
+import { deleteMembersFromSocket, leaveServerFromSocket } from "../../features/memberSlice";
 
 const BootstrapTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
@@ -89,6 +89,20 @@ function Server() {
         },
       };
       dispatch(socketAddListener(leftServer));
+
+      const deletedMembers = {
+        name: "deleted-members",
+        callback:({serverId, memberIds, userId}) => {
+          console.log(userId)
+          if(userId === currentUser.id) {
+            dispatch(deleteMembersFromSocket(memberIds));
+          } else {
+            dispatch(deleteServerFromSocket(serverId));
+            navigate('/servers/@me')
+          }
+        },
+      };
+      dispatch(socketAddListener(deletedMembers));
     }
   }, [socket]);
 

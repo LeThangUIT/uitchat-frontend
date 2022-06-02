@@ -57,6 +57,14 @@ const memberSlice = createSlice({
         (member) => member._id !== action.payload
       );
     },
+
+    deleteMembersFromSocket: (state, action) => {
+      action.payload.forEach((member_id) => {
+        state.data = current(state).data.filter(
+          (member) => member._id !== member_id
+        );
+      });
+    }
   },
   extraReducers: {
     [fetchMemberData.pending](state) {
@@ -96,6 +104,6 @@ const memberSlice = createSlice({
     },
   },
 });
-export const { leaveServerFromSocket, addNewMemberFromSocket } = memberSlice.actions;
+export const { leaveServerFromSocket, addNewMemberFromSocket, deleteMembersFromSocket } = memberSlice.actions;
 export const selectMember = (state) => state.member.data;
 export default memberSlice.reducer;
