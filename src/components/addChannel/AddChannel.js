@@ -10,6 +10,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Add from "@mui/icons-material/Add";
 import { fetchAddNewChannel } from "../../features/channelSlice";
 import { useDispatch } from "react-redux";
+import { socketEmitEvent } from "../../features/socketSlice";
+
 export default function AddChannel({ serverId }) {
   const [name, setName] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -27,7 +29,15 @@ export default function AddChannel({ serverId }) {
   const handleCreate = () => {
     handleClose();
     setName("");
-    dispatch(fetchAddNewChannel({ serverId, name }));
+    // dispatch(fetchAddNewChannel({ serverId, name }));
+    const addChannel = {
+      name: "add-channel",
+      data: {
+        serverId: serverId,
+        name: name
+      },
+    };
+    dispatch(socketEmitEvent(addChannel));
   };
 
   return (

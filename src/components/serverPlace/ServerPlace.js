@@ -12,7 +12,7 @@ import socketSlice, {
 } from "../../features/socketSlice";
 
 import "./ServerPlace.css";
-import { deleteChannelFromSocket } from "../../features/channelSlice";
+import { addChannelFromSocket, deleteChannelFromSocket, editChannelFromSocket } from "../../features/channelSlice";
 
 function ServerPlace() {
   const { serverId } = useParams();
@@ -53,8 +53,25 @@ function ServerPlace() {
         },
       };
       dispatch(socketAddListener(deletedChannelEvent));
+
+      const addedChannelEvent = {
+        name: "added-channel",
+        callback: (channel) => {
+          dispatch(addChannelFromSocket(channel));
+        },
+      };
+      dispatch(socketAddListener(addedChannelEvent));
+
+      const changedNameChannelEvent = {
+        name: "changedName-channel",
+        callback: (channel) => {
+          dispatch(editChannelFromSocket(channel));
+        },
+      };
+      dispatch(socketAddListener(changedNameChannelEvent));
+
       return () => {
-        dispatch(socketRemoveListener("deleted-channel"));
+        dispatch(socketRemoveListener("added-channel"));
       };
     }
   }, [socket]);
