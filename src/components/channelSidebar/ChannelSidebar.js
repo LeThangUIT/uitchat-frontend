@@ -25,12 +25,13 @@ export default function ChannelSidebar({ currentUser }) {
       <div className="sidebar__channels">
         <div className="sidebar__channelsHeader">
           <div className="sidebar__header">
-            <h3>Channels</h3>
+            <h3>Text Channels</h3>
           </div>
           {isOwner && (
             <AddChannel
               dataFromParent={currentUser}
               serverId={infoServer._id}
+              type={true}
             />
           )}
         </div>
@@ -38,6 +39,37 @@ export default function ChannelSidebar({ currentUser }) {
         <div className="sidebar__channelsList">
           {channels
             .filter((channel) => channel.isPublic == true)
+            .map((channel) => (
+              <NavLink
+                key={channel._id}
+                to={channel._id}
+                style={({ isActive }) => {
+                  return {
+                    textDecoration: "none",
+                    color: isActive ? "white" : "gray",
+                  };
+                }}
+              >
+                <ChannelList channel={channel} />
+              </NavLink>
+            ))}
+        </div>
+        <div className="sidebar__channelsHeader">
+          <div className="sidebar__header">
+            <h3>Voice Channels</h3>
+          </div>
+          {isOwner && (
+            <AddChannel
+              dataFromParent={currentUser}
+              serverId={infoServer._id}
+              type={false}
+            />
+          )}
+        </div>
+        
+        <div className="sidebar__channelsList">
+          {channels
+            .filter((channel) => channel.type == false)
             .map((channel) => (
               <NavLink
                 key={channel._id}

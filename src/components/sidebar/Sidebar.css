@@ -87,7 +87,7 @@
 }
 
 .sidebar__channelsList {
-    height: 60vh;
+    /* height: 60vh; */
     overflow: auto;
 }
 

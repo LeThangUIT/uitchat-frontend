@@ -12,7 +12,7 @@ import { fetchAddNewChannel } from "../../features/channelSlice";
 import { useDispatch } from "react-redux";
 import { socketEmitEvent } from "../../features/socketSlice";
 
-export default function AddChannel({ serverId }) {
+export default function AddChannel({ serverId, type }) {
   const [name, setName] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
@@ -34,7 +34,8 @@ export default function AddChannel({ serverId }) {
       name: "add-channel",
       data: {
         serverId: serverId,
-        name: name
+        name: name,
+        type
       },
     };
     dispatch(socketEmitEvent(addChannel));
