@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import CallIcon from "@mui/icons-material/Call";
+import PhoneDisabledIcon from '@mui/icons-material/PhoneDisabled';
 import { Avatar } from "@mui/material";
 import MicIcon from "@mui/icons-material/Mic";
 import HeadsetIcon from "@mui/icons-material/Headset";
@@ -10,7 +10,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInfoServerFromSocket } from "../../features/infoServerSlice";
 import { fetchInfoServerData } from "../../features/infoServerSlice";
-import { selectSocket, socketAddListener } from "../../features/socketSlice";
+import { selectSocket, socketAddListener, socketEmitEvent } from "../../features/socketSlice";
 import ChannelSidebar from "../channelSidebar/ChannelSidebar";
 import ContactSidebar from "../contactSidebar/ContactSidebar";
 
@@ -22,6 +22,8 @@ function Sidebar(props) {
   const dispatch = useDispatch();
   const socket = useSelector(selectSocket);
   const serverId = props.serverId;
+  let { channelId } = useParams();
+  const [stream, setStream] = useState(null)
 
   useEffect(() => {
     if (!currentUser) {
@@ -59,14 +61,36 @@ function Sidebar(props) {
     }
   }, [socket]);
 
+  const hideVoiceSidebar = () => {
+    document.getElementsByClassName("sidebar__voice")[0].classList.add("hideSidebar__voice")
+  }
+  
+  const closeStream = () => {
+    console.log("sdsda")
+    stream.getTracks().forEach(function(track) {
+      track.stop();
+    });
+  }
+  const handleDisconnect = () => {
+    hideVoiceSidebar()
+    closeStream()
+    const leaveChannelEvent = {
+      name: "leave-channel",
+      data: {
+        channelId,
+      },
+    };
+    dispatch(socketEmitEvent(leaveChannelEvent)); 
+  }
+
   return (
     <div className="sidebar">
       {serverId ? (
-        <ChannelSidebar currentUser={currentUser} />
+        <ChannelSidebar currentUser={currentUser} setStream={setStream}/>
       ) : (
         <ContactSidebar />
       )}
-      <div className="sidebar__voice">
+      <div className="sidebar__voice hideSidebar__voice">
         <SignalCellularAltIcon
           className="sidebar__voiceIcon"
           fontSize="large"
@@ -77,7 +101,7 @@ function Sidebar(props) {
         </div>
         <div className="sidebar__voiceIcons">
           <InfoOutlinedIcon />
-          <CallIcon />
+          <PhoneDisabledIcon onClick={handleDisconnect}/>
         </div>
       </div>
       <div className="sidebar__profile">

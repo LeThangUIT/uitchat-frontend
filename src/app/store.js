@@ -11,6 +11,7 @@ import conversationReducer from "../features/conversationSlice";
 import inviteReducer from "../features/inviteSlice";
 import contactReducer from "../features/contactSlice";
 import socketReducer from "../features/socketSlice";
+import memberVoiceReducer from "../features/memberVoiceSlice";
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     conversation: conversationReducer,
     invite: inviteReducer,
     contact: contactReducer,
+    memberVoice: memberVoiceReducer,
     socket: socketReducer,
   },
   middleware: (getDefaultMiddleware) =>

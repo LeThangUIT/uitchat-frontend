@@ -35,7 +35,7 @@ export default function AddChannel({ serverId, type }) {
       data: {
         serverId: serverId,
         name: name,
-        type
+        type: type
       },
     };
     dispatch(socketEmitEvent(addChannel));

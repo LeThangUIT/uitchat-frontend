@@ -9,6 +9,7 @@ import { socketEmitEvent } from "../../features/socketSlice";
 import "./ChannelList.css";
 import { selectInfoServer } from "../../features/infoServerSlice";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 function ChannelList({ channel }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -78,7 +79,8 @@ function ChannelList({ channel }) {
   return (
     <div className="channelList">
       <h5>
-        <span className="channelList__hash">#</span>
+        {channel.type ===  "text" ? (<span className="channelList__hash">#</span>) : (<VolumeUpIcon className="channelList__hash"/>)}
+        
         {channel.name}
       </h5>
       {channel.name !== "General" && isOwner && (

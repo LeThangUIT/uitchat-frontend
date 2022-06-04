@@ -100,3 +100,22 @@
     background-color: #1A171c;
     border-radius: 5px;
 }
+
+.hideSidebar__voice {
+    display: none;
+}
+
+.sidebar__memberChannel {
+    padding: 6px 6px 6px 60px;
+    display: flex;
+    align-items: center;
+    font-size: medium;
+}
+
+.sidebar__memberChannel:hover {
+    background-color: #40464B;
+}
+
+#video {
+    display: none;
+}
