@@ -17,108 +17,109 @@ import ContactSidebar from "../contactSidebar/ContactSidebar";
 import "./Sidebar.css";
 
 function Sidebar(props) {
-  const { user: currentUser } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const socket = useSelector(selectSocket);
-  const serverId = props.serverId;
-  let { channelId } = useParams();
-  const [stream, setStream] = useState(null)
+	const { user: currentUser } = useSelector((state) => state.auth);
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const socket = useSelector(selectSocket);
+	const serverId = props.serverId;
+	let { channelId } = useParams();
+	const [streams, setStreams] = useState([])
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/login");
-    }
-  }, [currentUser]);
+	useEffect(() => {
+		if (!currentUser) {
+			navigate("/login");
+		}
+	}, [currentUser]);
 
-  useEffect(() => {
-    if (serverId) {
-      dispatch(fetchInfoServerData(serverId));
-    }
-  }, [serverId]);
+	useEffect(() => {
+		if (serverId) {
+			dispatch(fetchInfoServerData(serverId));
+		}
+	}, [serverId]);
 
-  useEffect(() => {
-    if (socket) {
-      const updatedServer = {
-        name: "updated-server",
-        callback: (server) => {
-          dispatch(updateInfoServerFromSocket(server));
-        },
-      };
-      dispatch(socketAddListener(updatedServer));
-    }
-  }, [socket]);
+	useEffect(() => {
+		if (socket) {
+			const updatedServer = {
+				name: "updated-server",
+				callback: (server) => {
+					dispatch(updateInfoServerFromSocket(server));
+				},
+			};
+			dispatch(socketAddListener(updatedServer));
+		}
+	}, [socket]);
 
-  useEffect(() => {
-    if (socket) {
-      const deletedServer = {
-        name: "deleted-server",
-        callback: (server) => {
-          navigate("/servers/@me");
-        },
-      };
-      dispatch(socketAddListener(deletedServer));
-    }
-  }, [socket]);
+	useEffect(() => {
+		if (socket) {
+			const deletedServer = {
+				name: "deleted-server",
+				callback: (server) => {
+					navigate("/servers/@me");
+				},
+			};
+			dispatch(socketAddListener(deletedServer));
+		}
+	}, [socket]);
 
-  const hideVoiceSidebar = () => {
-    document.getElementsByClassName("sidebar__voice")[0].classList.add("hideSidebar__voice")
-  }
-  
-  const closeStream = () => {
-    console.log("sdsda")
-    stream.getTracks().forEach(function(track) {
-      track.stop();
-    });
-  }
-  const handleDisconnect = () => {
-    hideVoiceSidebar()
-    closeStream()
-    const leaveChannelEvent = {
-      name: "leave-channel",
-      data: {
-        channelId,
-      },
-    };
-    dispatch(socketEmitEvent(leaveChannelEvent)); 
-  }
+	const hideVoiceSidebar = () => {
+		document.getElementsByClassName("sidebar__voice")[0].classList.add("hideSidebar__voice")
+	}
 
-  return (
-    <div className="sidebar">
-      {serverId ? (
-        <ChannelSidebar currentUser={currentUser} setStream={setStream}/>
-      ) : (
-        <ContactSidebar />
-      )}
-      <div className="sidebar__voice hideSidebar__voice">
-        <SignalCellularAltIcon
-          className="sidebar__voiceIcon"
-          fontSize="large"
-        />
-        <div className="sidebar__voiceInfo">
-          <h4>Voice connected</h4>
-          <p>Play game</p>
-        </div>
-        <div className="sidebar__voiceIcons">
-          <InfoOutlinedIcon />
-          <PhoneDisabledIcon onClick={handleDisconnect}/>
-        </div>
-      </div>
-      <div className="sidebar__profile">
-        <Avatar src={currentUser.avatar} />
-        <div className="sidebar__profileInfo">
-          <h5>{currentUser.name}</h5>
-        </div>
-        <div className="sidebar__profileIcons">
-          <MicIcon className="sidebar__profileIcon" />
-          <HeadsetIcon className="sidebar__profileIcon" />
-          <Link to={"/profile"} className="sidebar__profileIcon">
-            <SettingsIcon className="setting__Icon" />
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+	const closeStream = () => {
+		streams.forEach(stream => {
+			stream.getTracks().forEach(function (track) {
+				track.stop();
+			});
+		});
+	}
+	const handleDisconnect = () => {
+		hideVoiceSidebar()
+		closeStream()
+		const leaveChannelEvent = {
+			name: "leave-channel",
+			data: {
+				channelId,
+			},
+		};
+		dispatch(socketEmitEvent(leaveChannelEvent));
+	}
+
+	return (
+		<div className="sidebar">
+			{serverId ? (
+				<ChannelSidebar currentUser={currentUser} setStreams={setStreams} />
+			) : (
+				<ContactSidebar />
+			)}
+			<div className="sidebar__voice hideSidebar__voice">
+				<SignalCellularAltIcon
+					className="sidebar__voiceIcon"
+					fontSize="large"
+				/>
+				<div className="sidebar__voiceInfo">
+					<h4>Voice connected</h4>
+					<p>Play game</p>
+				</div>
+				<div className="sidebar__voiceIcons">
+					<InfoOutlinedIcon />
+					<PhoneDisabledIcon onClick={handleDisconnect} />
+				</div>
+			</div>
+			<div className="sidebar__profile">
+				<Avatar src={currentUser.avatar} />
+				<div className="sidebar__profileInfo">
+					<h5>{currentUser.name}</h5>
+				</div>
+				<div className="sidebar__profileIcons">
+					<MicIcon className="sidebar__profileIcon" />
+					<HeadsetIcon className="sidebar__profileIcon" />
+					<Link to={"/profile"} className="sidebar__profileIcon">
+						<SettingsIcon className="setting__Icon" />
+					</Link>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default Sidebar;
