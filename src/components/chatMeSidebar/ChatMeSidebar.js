@@ -78,38 +78,39 @@ export default function ChatMeSidebar() {
       <h4 className="chatMeSidebar__status">Notifications</h4>
       <div className="chatMeSidebar__invites">
         {invites.map((invite) => {
-          // console.log(invite);
           return (
-            <div key={invite._id} className="card__container">
-              <Card
-                sx={{
-                  mb: "0.5rem",
-                  backgroundColor: "black",
-                }}
-              >
-                <CardContent
+            invite.serverId && (
+              <div key={invite._id} className="card__container">
+                <Card
                   sx={{
-                    color: "white",
-                    maxWidth: "12rem",
+                    mb: "0.5rem",
+                    backgroundColor: "black",
                   }}
                 >
-                  <b>{invite.senderId.name}</b> invites you join{" "}
-                  <b>{invite.serverId.name}</b> server
-                </CardContent>
-                <CardActions>
-                  <Button
-                    onClick={() =>
-                      handleAccept(invite._id, invite.serverId._id)
-                    }
+                  <CardContent
+                    sx={{
+                      color: "white",
+                      maxWidth: "12rem",
+                    }}
                   >
-                    Accept
-                  </Button>
-                  <Button onClick={() => handleReject(invite._id)}>
-                    Reject
-                  </Button>
-                </CardActions>
-              </Card>
-            </div>
+                    <b>{invite.senderId.name}</b> invites you join{" "}
+                    <b>{invite.serverId.name}</b> server
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() =>
+                        handleAccept(invite._id, invite.serverId._id)
+                      }
+                    >
+                      Accept
+                    </Button>
+                    <Button onClick={() => handleReject(invite._id)}>
+                      Reject
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            )
           );
         })}
       </div>
