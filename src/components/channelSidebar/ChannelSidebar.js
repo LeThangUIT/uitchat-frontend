@@ -36,9 +36,10 @@ export default function ChannelSidebar({ currentUser, setStreams }) {
 	useEffect(() => {
 		if (socket && peer) {
 			const someOneJoinVoiceChannel = {
-				name: "new-user-join-voice-channel",
+				name: "new-user-join-voice-channel", 
 				callback: (data) => {
 					if (currentUser.id !== data.userId) {
+						console.log("here"); // do emit vao server, ko phai emit vao channel
 						var getUserMedia =
 							navigator.getUserMedia ||
 							navigator.webkitGetUserMedia ||
@@ -71,7 +72,7 @@ export default function ChannelSidebar({ currentUser, setStreams }) {
 			};
 			dispatch(socketAddListener(someOneJoinVoiceChannel));
 			return () => {
-				dispatch(socketRemoveListener("new-user-join-your-voice-channel"));
+				dispatch(socketRemoveListener("new-user-join-voice-channel"));
 			};
 		}
 	}, [socket, peer]);
@@ -82,7 +83,7 @@ export default function ChannelSidebar({ currentUser, setStreams }) {
 				name: "user-disconnected",
 				callback: (data) => {
 					if (channelId === data.channelId && currentUser.id !== data.userId) {
-						// calls[data.userId].close()
+						calls[data.userId].close()
 					}
 				},
 			};

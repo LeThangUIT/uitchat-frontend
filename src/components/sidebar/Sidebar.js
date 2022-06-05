@@ -81,6 +81,10 @@ function Sidebar(props) {
 				channelId,
 			},
 		};
+		// close call
+		// remove video
+		// remove user (render)
+		// redirect
 		dispatch(socketEmitEvent(leaveChannelEvent));
 	}
 
