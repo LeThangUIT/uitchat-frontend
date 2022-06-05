@@ -15,6 +15,7 @@ import ChannelSidebar from "../channelSidebar/ChannelSidebar";
 import ContactSidebar from "../contactSidebar/ContactSidebar";
 
 import "./Sidebar.css";
+import { fetchMembersVoiceChannel } from "../../features/memberVoiceSlice";
 
 function Sidebar(props) {
 	const { user: currentUser } = useSelector((state) => state.auth);
@@ -36,6 +37,19 @@ function Sidebar(props) {
 			dispatch(fetchInfoServerData(serverId));
 		}
 	}, [serverId]);
+
+	useEffect(() => {
+		if(socket) {
+			const currentUsersInVoice = {
+				name: "current-users-in-voice-channel",
+				callback: (data) => {
+					console.log(data)
+					dispatch(fetchMembersVoiceChannel(data))
+				},
+			}
+			dispatch(socketAddListener(currentUsersInVoice))
+		}
+	}, [socket])
 
 	useEffect(() => {
 		if (socket) {
@@ -73,8 +87,8 @@ function Sidebar(props) {
 		});
 	}
 	const handleDisconnect = () => {
-		hideVoiceSidebar()
 		closeStream()
+		//hideVoiceSidebar()
 		const leaveChannelEvent = {
 			name: "leave-channel",
 			data: {
@@ -83,9 +97,8 @@ function Sidebar(props) {
 		};
 		// close call
 		// remove video
-		// remove user (render)
-		// redirect
 		dispatch(socketEmitEvent(leaveChannelEvent));
+		navigate(`/servers/${serverId}`)
 	}
 
 	return (

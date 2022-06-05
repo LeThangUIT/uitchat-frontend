@@ -16,6 +16,7 @@ import {
 } from "../../features/socketSlice";
 import {
 	memberJoinVoiceChannel,
+	memberLeftVoiceChannel,
 	selectMemberVoiceChannel,
 } from "../../features/memberVoiceSlice";
 
@@ -34,11 +35,15 @@ export default function ChannelSidebar({ currentUser, setStreams }) {
 
 	const socket = useSelector(selectSocket);
 	useEffect(() => {
-		if (socket && peer) {
+		if (socket ) {
 			const someOneJoinVoiceChannel = {
 				name: "new-user-join-voice-channel", 
 				callback: (data) => {
-					if (currentUser.id !== data.userId) {
+					if(currentUser.id === data.userId) {
+						showVoiceSidebar()
+					}
+					dispatch(memberJoinVoiceChannel(data));
+					if (currentUser.id !== data.userId && data.channelId === channelId) {
 						console.log("here"); // do emit vao server, ko phai emit vao channel
 						var getUserMedia =
 							navigator.getUserMedia ||
@@ -67,10 +72,20 @@ export default function ChannelSidebar({ currentUser, setStreams }) {
 						);
 					}
 
-					dispatch(memberJoinVoiceChannel(data));
 				},
 			};
 			dispatch(socketAddListener(someOneJoinVoiceChannel));
+
+			const someOneLeftVoiceChannel = {
+				name: "user-disconnected", 
+				callback: (data) => {
+					if(data.userId === currentUser.id) {
+						document.getElementsByClassName("sidebar__voice")[0].classList.add("hideSidebar__voice")
+					}
+					dispatch(memberLeftVoiceChannel(data))
+				}
+			}
+			dispatch(socketAddListener(someOneLeftVoiceChannel))
 			return () => {
 				dispatch(socketRemoveListener("new-user-join-voice-channel"));
 			};
@@ -83,7 +98,7 @@ export default function ChannelSidebar({ currentUser, setStreams }) {
 				name: "user-disconnected",
 				callback: (data) => {
 					if (channelId === data.channelId && currentUser.id !== data.userId) {
-						calls[data.userId].close()
+						//calls[data.userId].close()
 					}
 				},
 			};
@@ -122,7 +137,7 @@ export default function ChannelSidebar({ currentUser, setStreams }) {
 			.classList.remove("hideSidebar__voice");
 	};
 	const handleChannelClick = () => {
-		showVoiceSidebar();
+		//showVoiceSidebar();
 		setPeer(new Peer(currentUser.id));
 	};
 	function addVideoStream(video, stream) {
