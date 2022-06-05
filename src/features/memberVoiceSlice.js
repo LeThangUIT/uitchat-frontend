@@ -8,7 +8,6 @@ const memberVoiceSlice = createSlice({
     },
     reducers: {
       memberJoinVoiceChannel: (state, action) => {
-        console.log(action.payload)
         const member = action.payload;
         state.data.push(member);
       },

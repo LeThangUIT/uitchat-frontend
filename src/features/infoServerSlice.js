@@ -30,7 +30,6 @@ const infoServerSlice = createSlice({
       state.loading = HTTP_STATUS.PENDING;
     },
     [fetchInfoServerData.fulfilled](state, { payload }) {
-      console.log(payload)
       state.loading = HTTP_STATUS.FULFILLED;
       state.data = payload;
     },

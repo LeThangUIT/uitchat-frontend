@@ -12,6 +12,7 @@ import inviteReducer from "../features/inviteSlice";
 import contactReducer from "../features/contactSlice";
 import socketReducer from "../features/socketSlice";
 import memberVoiceReducer from "../features/memberVoiceSlice";
+import streamReducer from '../features/streamSlice';
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     contact: contactReducer,
     memberVoice: memberVoiceReducer,
     socket: socketReducer,
+    stream: streamReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

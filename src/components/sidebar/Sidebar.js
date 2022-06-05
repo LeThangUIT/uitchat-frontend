@@ -16,15 +16,16 @@ import ContactSidebar from "../contactSidebar/ContactSidebar";
 
 import "./Sidebar.css";
 import { fetchMembersVoiceChannel } from "../../features/memberVoiceSlice";
+import { selectStream } from "../../features/streamSlice";
 
 function Sidebar(props) {
 	const { user: currentUser } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const socket = useSelector(selectSocket);
+	const streams = useSelector(selectStream);
 	const serverId = props.serverId;
 	let { channelId } = useParams();
-	const [streams, setStreams] = useState([])
 
 	useEffect(() => {
 		if (!currentUser) {
@@ -43,7 +44,6 @@ function Sidebar(props) {
 			const currentUsersInVoice = {
 				name: "current-users-in-voice-channel",
 				callback: (data) => {
-					console.log(data)
 					dispatch(fetchMembersVoiceChannel(data))
 				},
 			}
@@ -80,6 +80,7 @@ function Sidebar(props) {
 	}
 
 	const closeStream = () => {
+
 		streams.forEach(stream => {
 			stream.getTracks().forEach(function (track) {
 				track.stop();
@@ -104,7 +105,7 @@ function Sidebar(props) {
 	return (
 		<div className="sidebar">
 			{serverId ? (
-				<ChannelSidebar currentUser={currentUser} setStreams={setStreams} />
+				<ChannelSidebar currentUser={currentUser} />
 			) : (
 				<ContactSidebar />
 			)}
